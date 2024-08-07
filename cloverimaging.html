@@ -355,10 +355,11 @@
 </script>
 <script src="https://cloverimaging-stage.quiq-api.com/app/chat-ui/index.js" charset="UTF-8"></script>
 <script>
-  var chat = Quiq({
-    pageConfigurationId: 'clover-llm'  });
-
-  </script>
+          window.chat = Quiq({
+            pageConfigurationId: "clover-llm",
+            context: { intent: "someValue"}
+          });
+        </script>
 	<!-- required for banner animation -->
 	<script src="https://www.cloverimaging.com/script/imagesloaded.min.js"></script>
 
