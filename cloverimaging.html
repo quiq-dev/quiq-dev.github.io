@@ -51,7 +51,43 @@
     <!-- Header -->
     <nav id="header-nav" class="navbar navbar-fixed-top navbar-custom">
         <div class="container">
-            <!-- Header content here (logo, menu items, etc.) -->
+            <div class="row">
+                <div class="mobile-menu-holder">
+                    <div class="logo-holder">
+                        <div class="logo"><a href="https://www.cloverimaging.com/"><img src="https://www.cloverimaging.com/images/modules/header/logo.svg" alt="Clover Imaging Group" /></a></div>
+                    </div>
+                    <div class="menu">
+                        <!-- User menu items (search, login, etc.) -->
+                        <div class="user-menu">
+                            <a class="ink-toner-finder-menu" href="https://www.cloverimaging.com/ink-and-toner-finder">
+                                <i class="icon-holder"><!-- SVG icon here --></i>
+                                <span>Ink & Toner Finder</span>
+                            </a>
+                            <!-- Other user menu items -->
+                        </div>
+                    </div>
+                </div>
+                <div class="main-menu collapse navbar-collapse" id="main-menu">
+                    <ul id="menu-list-container">
+                        <li><a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Products and Services</a></li>
+                        <li><a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Partner Center</a></li>
+                        <li><a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sustainability</a></li>
+                        <li><a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About Us</a></li>
+                        <li class="blog-link hide-on-mobile"><a href="https://www.cloverimaging.com/blog">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="navbar-header">
+                    <button type="button" id="open-main-menu" class="navbar-toggle" data-toggle="slide-collapse" data-target="#main-menu" aria-expanded="false" onclick="openMenu()">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <button type="button" id="close-main-menu" class="close-menu" data-toggle="slide-collapse" data-target="#main-menu" aria-expanded="false" onclick="closeMenu()">
+                        <img src="https://www.cloverimaging.com/images/shared/close-button.svg" width="30" height="30" alt="Close Menu" />
+                    </button>
+                </div>
+            </div>
         </div>
     </nav>
 
@@ -86,7 +122,21 @@
     <section class="home-marketing">
         <div class="container">
             <div class="row">
-                <!-- Marketing content here -->
+                <div class="col-xs-6 col-sm-3 marketing-box">
+                    <div class="marketing-box-content wow fadeIn" data-wow-duration="0.3s" data-wow-delay="0.3s">
+                        <a href="https://www.cloverimaging.com/technical-resource-center">
+                            <img loading="lazy" srcset="https://www.cloverimaging.com/images/page-specific/home/sub/tech-res-subbaner@2x.jpg 2x" src="https://www.cloverimaging.com/images/page-specific/home/sub/tech-res-subbaner.jpg" alt="Why Clover Imaging Remanufactured Printer Cartridges?"/>
+                        </a>
+                        <div class="description">
+                            <h3>Clover Imaging's New Technical Resource Center</h3>
+                            <div class="details">
+                                <p>Download printer service manuals, firmware update instructions, diagrams and other documentation for an assortment of printer brands including HP, Brother, Dell, Lexmark and more.</p>
+                                <a class="btn read-more" href="https://www.cloverimaging.com/technical-resource-center">Browse Technical Resources Here</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- More marketing boxes here -->
             </div>
         </div>
     </section>
@@ -99,7 +149,17 @@
             </div>
             <div class="row">
                 <div class="impact_container">
-                    <!-- Environmental impact content here -->
+                    <div class="environmental-responsibility">
+                        <div class="hidder">
+                            <span class="impact_img">
+                                <img loading="lazy" class="wow fadeInDown" data-wow-duration="0.5s" data-wow-delay="0s" src="https://www.cloverimaging.com/images/page-specific/home/printer.svg" alt="Cartridges collected" />
+                            </span>
+                            <p class="time wow fadeInDown numbers" data-wow-duration="0.8s" data-wow-delay="0.8s" id="numberz-printer" data-to='361389458'  data-easing='gompertz'><span>0</span></p>
+                            <p class="wow fadeInDown massage" data-wow-duration="0.5s" data-wow-delay="0.2s">Cartridges collected</p>
+                            <p class="wow fadeInDown note" data-wow-duration="0.5s" data-wow-delay="0.3s">*since January 2009</p>
+                        </div>
+                    </div>
+                    <!-- More environmental impact items here -->
                 </div>
             </div>
         </div>
@@ -111,15 +171,34 @@
             <div class="container">
                 Solving today's business challenges through Sustainable Innovation<sup>®</sup>.
             </div>
-        </div>  
+        </div>
+        <!-- More footer content here -->
     </footer>
 
     <!-- Scripts -->
     <script src="https://www.cloverimaging.com/script/imagesloaded.min.js"></script>
+    <script src="https://www.cloverimaging.com/script/do-in.js?v=772" type="text/javascript"></script>
     <script src="https://www.cloverimaging.com/script/page-specific/home/index.js?v=772"></script>
+    <script src="https://www.cloverimaging.com/script/page-specific/home/counter/counter.js?v=772" type="text/javascript"></script>
     <script>
         $(document).ready(function(){
-            // JavaScript code here
+            $(".home_video").click(function(){
+                let pattern = "<style>.embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; } .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }</style><div class='embed-container'><iframe src='https://player.vimeo.com/video/765836246?h=9511f35ca8' frameborder='0' webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe></div>";
+
+                $(".home_video_container").html(pattern);
+                $(".popup_video").removeClass("display_none");
+                setOverlayState(1);
+            });
+
+            $("#overlay").click(function(){
+                $(".home_video_close").click();
+            });
+
+            $(".home_video_close").click(function(){
+                $(".popup_video").addClass("display_none");
+                setOverlayState(0);
+                $(".home_video_container").html("");
+            });
         });
     </script>
 </body>
