@@ -7,7 +7,6 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<script src="https://cloverimaging-stage.quiq-api.com/app/chat-ui/index.js" charset="UTF-8"></script>
 <meta name="author" content="Clover Technologies Group">
 
 <link rel="apple-touch-icon" sizes="32x32" href="https://www.cloverimaging.com/images/favicon/CIG-32×32-App_icon.jpg">
@@ -19,22 +18,9 @@
 <title>Premium Remanufactured Toner & Ink | Clover Imaging Group USA</title>
 <meta name="description" content="Clover Imaging Group is the world’s largest remanufacturer of imaging supplies. CIG’s brand portfolio includes: MSE, Dataproducts, Axess MPS, Tecno Toner, Depot International and Latin Parts.">
 
-<meta property='og:title' content="Premium Remanufactured Toner & Ink | Clover Imaging Group USA"/>
-<meta property='og:description' content="Clover Imaging Group is the world’s largest remanufacturer of imaging supplies. CIG’s brand portfolio includes: MSE, Dataproducts, Axess MPS, Tecno Toner, Depot International and Latin Parts."/>
-<meta property='og:url' content="https://www.cloverimaging.com/" />
-<meta property="og:type" content="website" />
-<meta property="og:site_name" content="Clover Imaging Group" />
 
 <meta property='og:image' content="https://www.cloverimaging.com/images/meta_og/ECO-NewPackaging-OG.jpg" />
 
-<meta name="twitter:title" content="Premium Remanufactured Toner & Ink | Clover Imaging Group USA" />
-<meta name="twitter:description" content="Clover Imaging Group is the world’s largest remanufacturer of imaging supplies. CIG’s brand portfolio includes: MSE, Dataproducts, Axess MPS, Tecno Toner, Depot International and Latin Parts." />
-<meta name="twitter:card" content="summary" />
-<meta name="twitter:site" content="@CloverImaging" />
-
-<meta name="twitter:image" content="https://www.cloverimaging.com/images/meta_og/ECO-NewPackaging-OG.jpg" />
-
-	    
 	
 <link href="https://www.cloverimaging.com/css/fuelux.min.css?v=772" rel="stylesheet">
 <link href="https://www.cloverimaging.com/css/animate.css?v=772" rel="stylesheet">
@@ -46,7 +32,7 @@
 	<link href="https://www.cloverimaging.com/css/page-specific/homepage-banner.css?v=772" rel="stylesheet">
 
 
-
+  <script>const exitIntentPopup = 'enable'</script>
 <!-- header js -->
 <script src="https://www.cloverimaging.com/script/modules/header/header.js?v=772"></script>	
 <!-- header js -->
@@ -338,11 +324,6 @@
 	<!-- COUNTER SECTION ENDS  -->
 
 	
-  <script>
-    var chat = Quiq({
-      pageConfigurationId: 'clover-llm'
-    });
-  </script>
 
 
 
@@ -372,7 +353,12 @@
 
 
 </script>
+<script src="https://cloverimaging.quiq-api.com/app/chat-ui/index.js" charset="UTF-8"></script>
+<script>
+  var chat = Quiq({
+    pageConfigurationId: 'customer-support'  });
 
+  </script>
 	<!-- required for banner animation -->
 	<script src="https://www.cloverimaging.com/script/imagesloaded.min.js"></script>
 
