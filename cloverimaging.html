@@ -276,153 +276,13 @@
                                         <img src="https://www.cloverimaging.com/images/shared/green-menu-arrow.svg">
                                     </span>
                                     <div class="login-container">
-    <form id="loginFormHeader" class="login-form" action="https://www.cloverimaging.com/login" method="post">
-    <div class="form-group">
-        <div class="region_select_hoder">
-            <label><strong>Region:</strong></label>
-
-            <div class="region_select" id="region_select_header">
-                <ul id="region_selects_list" tabindex="1">
-                                                                <li
-                                id="region_us"
-                                region="us"
-                                domainname="com"
-                                regionname="United States"
-                                target_url="https://www.cloverimaging.com"
-                                class="region_selects region_selects_header"
-                        >
-		            <span>
-		            <img src="https://www.cloverimaging.com/images/us_flag.png" alt=""/>
-		            </span>
-                            United States                        </li>
-                                            <li
-                                id="region_ca"
-                                region="ca"
-                                domainname="ca"
-                                regionname="Canada"
-                                target_url="https://www.cloverimaging.ca"
-                                class="region_selects region_selects_header"
-                        >
-		            <span>
-		            <img src="https://www.cloverimaging.com/images/ca_flag.png" alt=""/>
-		            </span>
-                            Canada                        </li>
-                                    </ul>
-            </div>
-
-            <input type="hidden" name="domain_selection_hidden" id="domain_selection_hidden" value=""/>
-            <input type="hidden" name="regionname_selection_hidden" id="regionname_selection_hidden" value=""/>
-            <input type="hidden" name="target_url_selection_hidden" id="target_url_selection_hidden" value=""/>
-
-                        
-            <ul id="region_selects_list_default" class="display-none display_none" tabindex="1">
-                                    <li
-                            id="region_us"
-                            region="us"
-                            domainname="com"
-                            regionname="United States"
-                            target_url="https://www.cloverimaging.com"
-                            class="region_selects region_selects_header"
-                    >
-		        <span>
-		        <img src="https://www.cloverimaging.com/images/us_flag.png" alt=""/>
-		        </span>
-                        United States                    </li>
-                                    <li
-                            id="region_ca"
-                            region="ca"
-                            domainname="ca"
-                            regionname="Canada"
-                            target_url="https://www.cloverimaging.ca"
-                            class="region_selects region_selects_header"
-                    >
-		        <span>
-		        <img src="https://www.cloverimaging.com/images/ca_flag.png" alt=""/>
-		        </span>
-                        Canada                    </li>
-                            </ul>
-
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="login_email">E-mail:</label>
-        <input name="username" type="text" class="form-control" id="login_email" aria-describedby="emailHelp"
-               placeholder="Enter email">
-    </div>
-    <div class="form-group">
-        <label for="login_pswd">Password (Case Sensitive):</label>
-        <input name="password" type="password" class="form-control" id="login_pswd" aria-describedby="emailHelp"
-               placeholder="Enter password">
-    </div>
-    <div class="form-group cl-flex cl-flex-v-align cl-gap-10">
-        <span>Keep me logged in:</span>
-        <label id="keepLabel" for="keep" class="label checkbox-custom">
-            <input id="keep" name="keepmeloggedin" type="checkbox" value="1" class="form-control checkbox">
-            <span></span>
-        </label>
-
-        <div class="global-error cl-flex cl-gap-5 display_none">
-            <img src="https://www.cloverimaging.com/images/shared/warning.svg" alt="">
-            Login information incorrect!<br/>Please try again.
-        </div>
-
-        <div class="block-error cl-flex cl-gap-5 display_none">
-            <img src="https://www.cloverimaging.com/images/shared/warning.svg" alt="">
-            User blocked!<br/>Please try again in 20 minutes.
-        </div>
-    </div>
-    <div class="form-group cl-flex cl-flex-v-align cl-gap-btw">
-        <span><button type="submit" class="login-submit btn btn-blue">Log In </button> <img
-                    class="display_none login-loader"
-                    src="https://www.cloverimaging.com//images/ajax-loader-green.gif"/></span>
-        <a class="lostPass2" hfer="#"><strong>Trouble Logging in?</strong></a>
-    </div>
-</form>
-
-<div class="pop-up-new-customer">
-	<div class="">New Customer?</div>
-	<a href="https://www.cloverimaging.com/register"><strong>Create an Account</strong></a>
-</div></div>
-
-<div class="retrive-acc-container">
-    <form class="retrive-form" id="retrievePasswordHeader" action="https://www.cloverimaging.com/retrieve-password" method="post">
-    <h3>Retrieve account data</h3>
-    <p>To retrieve your login data, enter your email:</p>
-
-    <div class="form-group">
-        <input type="text" class="form-control" id="login_email" aria-describedby="emailHelp" placeholder="Enter email">
-    </div>
-
-    <div class="form-group cl-flex cl-flex-v-align cl-gap-btw">
-        <span><button type="submit" class="retrieve-submit btn btn-blue">Submit </button> <img class="display_none retrieve-loader" src="https://www.cloverimaging.com//images/ajax-loader-green.gif" /></span>
-
-        <div class="global-error-retrieve cl-flex cl-gap-5 display_none">
-            <img src="https://www.cloverimaging.com/images/shared/warning.svg" alt="">
-            Error retrieving data!<br/>Provided email was not found.
-        </div>
-    </div>
 
 
-    
-</form>
+</div>
 
-<div class="pop-up-new-customer">
-	<div class="">New Customer?</div>
-	<a href="https://www.cloverimaging.com/register"><strong>Create an Account</strong></a>
-</div></div>
 
-<div class="retrive-msg-container">
-    <form class="retrive-form">
 
-	<h3>Thank You!<span></span></h3>
-	<p>Password retrieval email has been sent. Please follow instructions in the email to change your password.</p>
-	<p>If you do not receive your email within 5 minutes, please check your spam or junk email folder in case it was blocked by your email provider.</p>
-</form>
 
-<div class="pop-up-new-customer">
-	<div class="">New Customer?</div>
-	<a href="https://www.cloverimaging.com/register"><strong>Create an Account</strong></a>
-</div></div>
 
                               </section>
                             </div>
@@ -768,11 +628,11 @@
 	<!-- COUNTER SECTION ENDS  -->
 
 	
-	
-
-
-
-
+  <script>
+  var chat = Quiq({
+    pageConfigurationId: 'clover-llm'
+  });
+  </script>
 
 
 
@@ -789,9 +649,6 @@
         <div id="tooltip_overlay" class="tooltip-overlay display_none"></div>
 
 
-
-
-
     </div>
     <div id="large_control_div"></div>
     <div id="medium_control_div"></div>
@@ -800,11 +657,6 @@
 </footer>
 <div id="mobileId2"></div>
 <div id="overlay" class="display_none"></div>
-
-
-
-
-
 
 
 
@@ -818,40 +670,10 @@
     <script src="https://www.cloverimaging.com/script/page-specific/home/index.js?v=772"></script>
     <!-- end of home js -->
 
-    <script>
-    	$(document).ready(function(){
-	    	$(".home_video").click(function(){
-	        let pattern = "<style>.embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; } .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }</style><div class='embed-container'><iframe src='https://player.vimeo.com/video/765836246?h=9511f35ca8' frameborder='0' webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe></div>";
-
-	        $(".home_video_container").html(pattern);
-	        $(".popup_video").removeClass("display_none");
-	        setOverlayState(1);
-	    });
-
-	    $("#overlay").click(function(){
-	        $(".home_video_close").click();
-	    });
-
-	    $(".home_video_close").click(function(){
-	        $(".popup_video").addClass("display_none");
-	        setOverlayState(0);
-	        $(".home_video_container").html("");
-	    });
-		
-
-		});
-
-
-		
-	</script>
 
 	
 		
     </script>
-  <script>
-  var chat = Quiq({
-    pageConfigurationId: 'clover-llm'
-  });
-</script>	
+	
 	</body>
 	</html>
