@@ -74,29 +74,8 @@
 
 
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-KSQN84XXNV"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+<script src="https://cloverimaging-stage.quiq-api.com/app/chat-ui/index.js" charset="UTF-8"></script>
 
-  gtag('config', 'G-KSQN84XXNV');
-</script>
-<!-- ZoomInfo Embed Code -->
-  <script>
-    (function () {
-      var zi = document.createElement('script');
-      zi.type = 'text/javascript';
-      zi.async = true;
-      zi.referrerPolicy = 'unsafe-url';
-      zi.src = 'https://ws.zoominfo.com/pixel/632087d30c95aefd507f58a1';
-      var s = document.getElementsByTagName('script')[0];
-      s.parentNode.insertBefore(zi, s);
-    })();
-  </script>
-<!-- ZoomInfo Embed Code -->
-	<script src="https://www.cloverimaging.com/script/slick.js"></script>
 
 
 </head>
@@ -104,6 +83,67 @@
 	<!-- header -->
 	
 
+<script>
+	$(document).ready(function () {
+
+		var cookieBanner = '0';
+
+		if (cookieBanner == '0') {
+			$('.cookie-banner').slideDown();
+		} else {
+			$('.cookie-banner').slideUp();
+		}
+
+		$('.cookie-banner-link').click(function () {
+			$.ajax({
+				url: base_url + "cookie_banner/SetCookieBanner",
+				data: {},
+				type: "POST",
+				beforeSend: function () {
+				},
+				success: function (data) {
+					if (data.success == true) {
+						// If setting the cookie is ok, hide the banner
+						$('.cookie-banner').slideUp();
+					}
+					if (data['success'] == false) {
+					}
+				},
+				complete: function () {
+				}
+			});
+
+		});
+
+		let termsBanner = document.querySelector('.terms-banner');
+		if (termsBanner) {
+			setBannerBottom(termsBanner.offsetHeight);
+			termsBanner.addEventListener("click", setBannerBottom(termsBanner.offsetHeight));
+			
+			var observer = new MutationObserver(function (mutations) {
+				mutations.forEach(function (mutationRecord) {
+					termsBanner.addEventListener("click", setBannerBottom(termsBanner.offsetHeight));
+				});
+			});
+			observer.observe(termsBanner, { attributes : true, attributeFilter : ['style'] });
+		}
+
+		$(window).on('resize', function () {
+			if (termsBanner) {
+				setBannerBottom(termsBanner.offsetHeight);
+			}
+		});
+
+		
+
+		function setBannerBottom(offset) {
+			$('.cookie-banner').css({
+				bottom: offset + 'px',
+			});
+		}
+
+	});
+</script><div id="overlay-login" class="display_none"></div>
 
 <nav id="header-nav" class="navbar navbar-fixed-top navbar-custom">
         <div class="container">
@@ -2836,7 +2876,6 @@ $(document).ready(function() {
 
 
 
-<script src="https://cloverimaging-stage.quiq-api.com/app/chat-ui/index.js" charset="UTF-8"></script>
 <script>
   var chat = Quiq({
     pageConfigurationId: 'clover-llm'  });
