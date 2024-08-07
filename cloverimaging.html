@@ -103,76 +103,7 @@
 <body>
 	<!-- header -->
 	
-<div class="cookie-banner" style="display: none;">
-	<p class="cookie-banner-text">
-		 Our website uses cookies to continuously improve your experience and display content geared to your interests. By using our website and services, you
-agree to our		<a href="https://www.cloverimaging.com/privacy-policy"> use of cookies.</a>
-	</p>
-	<button class="btn-green cookie-banner-link">
-		Got It	</button>
-</div>
 
-<script>
-	$(document).ready(function () {
-
-		var cookieBanner = '0';
-
-		if (cookieBanner == '0') {
-			$('.cookie-banner').slideDown();
-		} else {
-			$('.cookie-banner').slideUp();
-		}
-
-		$('.cookie-banner-link').click(function () {
-			$.ajax({
-				url: base_url + "cookie_banner/SetCookieBanner",
-				data: {},
-				type: "POST",
-				beforeSend: function () {
-				},
-				success: function (data) {
-					if (data.success == true) {
-						// If setting the cookie is ok, hide the banner
-						$('.cookie-banner').slideUp();
-					}
-					if (data['success'] == false) {
-					}
-				},
-				complete: function () {
-				}
-			});
-
-		});
-
-		let termsBanner = document.querySelector('.terms-banner');
-		if (termsBanner) {
-			setBannerBottom(termsBanner.offsetHeight);
-			termsBanner.addEventListener("click", setBannerBottom(termsBanner.offsetHeight));
-			
-			var observer = new MutationObserver(function (mutations) {
-				mutations.forEach(function (mutationRecord) {
-					termsBanner.addEventListener("click", setBannerBottom(termsBanner.offsetHeight));
-				});
-			});
-			observer.observe(termsBanner, { attributes : true, attributeFilter : ['style'] });
-		}
-
-		$(window).on('resize', function () {
-			if (termsBanner) {
-				setBannerBottom(termsBanner.offsetHeight);
-			}
-		});
-
-		
-
-		function setBannerBottom(offset) {
-			$('.cookie-banner').css({
-				bottom: offset + 'px',
-			});
-		}
-
-	});
-</script><div id="overlay-login" class="display_none"></div>
 
 <nav id="header-nav" class="navbar navbar-fixed-top navbar-custom">
         <div class="container">
