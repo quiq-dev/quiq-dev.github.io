@@ -21,23 +21,24 @@
       }
       .input-row {
         display: flex;
-        justify-content: space-between;
+        align-items: center;
         margin-bottom: 20px;
       }
       .input-group {
-        flex: 1;
-        margin-right: 10px;
+        display: flex;
+        align-items: center;
+        margin-right: 20px;
       }
       .input-group:last-child {
         margin-right: 0;
       }
       .input-group label {
-        display: inline-block;
+        white-space: nowrap;
         margin-right: 5px;
         font-weight: bold;
       }
       .input-group input {
-        width: calc(100% - 130px);
+        width: 150px;
         padding: 5px;
         border: 1px solid #ccc;
         border-radius: 3px;
@@ -55,13 +56,15 @@
         }
         .input-row {
           flex-direction: column;
+          align-items: flex-start;
         }
         .input-group {
           margin-right: 0;
           margin-bottom: 10px;
+          width: 100%;
         }
         .input-group input {
-          width: calc(100% - 10px);
+          width: calc(100% - 110px);
         }
         #inline-widget {
           height: 500px;
@@ -74,8 +77,8 @@
     <div class="container">
       <div class="input-row">
         <div class="input-group">
-          <label for="insurance-company">Insurance Company:</label>
-          <input type="text" id="insurance-company" name="insurance-company">
+          <label for="drp-client">DRP Client:</label>
+          <input type="text" id="drp-client" name="drp-client">
         </div>
         <div class="input-group">
           <label for="state">State:</label>
