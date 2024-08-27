@@ -19,16 +19,25 @@
         margin: 20px auto;
         padding: 0 15px;
       }
-      .input-group {
+      .input-row {
+        display: flex;
+        justify-content: space-between;
         margin-bottom: 20px;
+      }
+      .input-group {
+        flex: 1;
+        margin-right: 10px;
+      }
+      .input-group:last-child {
+        margin-right: 0;
       }
       .input-group label {
         display: inline-block;
-        width: 100px;
+        margin-right: 5px;
         font-weight: bold;
       }
       .input-group input {
-        width: calc(100% - 110px);
+        width: calc(100% - 130px);
         padding: 5px;
         border: 1px solid #ccc;
         border-radius: 3px;
@@ -44,16 +53,18 @@
         body {
           background-size: contain;
         }
-        #inline-widget {
-          height: 500px;
+        .input-row {
+          flex-direction: column;
         }
-        .input-group label {
-          display: block;
-          width: 100%;
-          margin-bottom: 5px;
+        .input-group {
+          margin-right: 0;
+          margin-bottom: 10px;
         }
         .input-group input {
-          width: 100%;
+          width: calc(100% - 10px);
+        }
+        #inline-widget {
+          height: 500px;
         }
       }
     </style>
@@ -61,9 +72,15 @@
   </head>
   <body>
     <div class="container">
-      <div class="input-group">
-        <label for="value-input">Value:</label>
-        <input type="text" id="value-input" name="value-input">
+      <div class="input-row">
+        <div class="input-group">
+          <label for="insurance-company">Insurance Company:</label>
+          <input type="text" id="insurance-company" name="insurance-company">
+        </div>
+        <div class="input-group">
+          <label for="state">State:</label>
+          <input type="text" id="state" name="state">
+        </div>
       </div>
       <div id="inline-widget"></div>
     </div>
