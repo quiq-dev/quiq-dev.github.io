@@ -1,0 +1,171 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script type="text/javascript" src="https://quiqsilvermountaindemo2.goquiq.com/app/ui-extensions/sdk.js"></script>
+  </head>
+  <style>
+    body { 
+      margin:0;
+      font-family: system-ui;
+      font-size: 14px;
+    }
+    button {
+      border-radius: 0 0 8px 8px;
+      padding: 12px;
+      outline: none;
+      transition: 0.15s ease-in-out;
+      color: #fff;
+      border-width: medium;
+      border-style: none;
+      border-image: none;
+      border-color: #000;
+      opacity: 1;
+      cursor: pointer;
+      flex: 1 1 auto;
+      background: rgb(71, 131, 255);
+      width: 100%;
+      font-weight: 500;
+      margin-right: 20px;
+    } 
+    .suggestion-details, .suggestion-action, .ticket-created-div {
+      padding: 10px;
+      display: flex;
+    }
+    .suggestion-details {
+      background: #f5f5f5;
+      border-radius: 8px 8px 0 0;
+    }
+    .ticket-created-msg, .ticket-created-img {
+      display: flex;
+      justify-content: center;
+      padding 10px;
+    }
+    .ticket-created-div {
+      padding 10px;
+    } 
+    .ticket-created-img img {
+      height: 48px;
+    }
+    h3 {
+      font-weight: 500;
+      margin: 12px 0;
+    }
+    #process-div, .complete {
+      color: #999;
+    }
+    .complete .fa-check-to-slot {
+      color: rgb(71, 131, 255);
+    }
+    .active .fa-check-to-slot {
+      color: green;
+    }
+    a {
+      color: #999
+    }
+    .active a {
+      color: unset;
+    }
+    .active {
+      color: #333;
+    }
+    
+    .warn {
+      display: none
+    }
+    .warn.active {
+      display: block;
+    }
+    .active .fa-triangle-exclamation {
+      display: block;
+      color: orange;
+    }
+    .step {
+      padding: 8px 2px;
+      display: none;
+    }
+    .step.complete, .step.active {
+      display: flex;
+    }
+    .step i {
+      padding: 3px 6px 3px 0px;
+    }
+    main {
+      width: 94%;
+    }
+  </style>
+  <body>
+    <div id="process-div">
+      <div class="step"><i class="fa-solid fa-check-to-slot"></i><span>Introduce yourself and ask for full name.</span></div>
+      <div class="step"><i class="fa-solid fa-check-to-slot"></i><span>Ask Matt about the issue with his Cannondale product.</span></div>
+      <div class="step"><i class="fa-solid fa-check-to-slot"></i><span>Confirm Matt is referring to the Synapse 2.</span></div>  
+      <div class="step"><i class="fa-solid fa-check-to-slot"></i><span>Collect an image to attach to Matt's warranty claim.</span></div>
+      <div class="step warn"><i class="fa-solid fa-triangle-exclamation"></i><span>Image doesn't match the stated issue.</span></div>
+      <div class="step">
+        <i class="fa-solid fa-check-to-slot"></i>
+        <span>Confirm the service shop location.</span>
+        <a href="https://www.cannondale.com/en-us/find-a-dealer" style="padding-left:3px;">
+          <span>Shop Locator</span>
+          <i style="padding-left:3px;" class="fa-solid fa-location-crosshairs"></i>
+        </a>
+      </div>
+      <div class="step"><i class="fa-solid fa-check-to-slot"></i><span>Ask Matt for details he would like noted.</span></div>
+      <div class="step"><i class="fa-solid fa-check-to-slot"></i><span>Create the warranty claim.</span></div>
+      <div class="step"><i class="fa-solid fa-check-to-slot"></i><span>Provide Matt the reference number.</span></div>
+      <div class="step"><i class="fa-solid fa-check-to-slot"></i><span>Wrap up the conversation.</span></div>
+    </div>  
+    <div id="main-div"></div>  
+    <script>
+      const tenant = "quiqsilvermountaindemo2";
+      let fieldUpdate = false
+      const ticketCreated = `
+      <div class="complete">
+        <i class="fa-solid fa-bullseye" style=color:green; padding-left: 3px;"></i>
+        <span>Warranty claim DRL34526 has been created. The replacement frame is expected to arrive at our Bozeman shop on August 22nd, 2024.</span>
+        <a href="https://www.cannondale.com/en-us/find-a-dealer" style="padding-left:3px;">
+          <span>Edit Claim</span>
+          <i style="padding-left:3px;" class="fa-solid fa-pencil"></i>
+        </a>    
+      </div>`
+      Quiq.init(`https://${tenant}.goquiq.com`);
+      Quiq.on("init", function (context) {
+        console.log('cid', context.conversation)
+      });
+      Quiq.on('assistStateChanged', function(data) {
+        console.log('state', data)
+        step = data.assistState.extensionState.step
+        
+        if (data.assistState.extensionState.step) {
+	        document.querySelectorAll('#process-div .step').forEach((e, i) => {
+            let cl = 'complete'
+            if (i > step-1) cl = 'incomplete';
+            else if (i == step-1) cl = 'active';
+            else if (i < step-1) cl = 'complete';
+            console.log(e.getAttribute('class'))
+            if (e.getAttribute('class').includes('warn')) {
+              if (cl == 'active') cl = 'active warn';
+              else cl = 'warn';   
+            }
+            e.setAttribute('class', `step ${cl}`)
+          })
+          if (!fieldUpdate) {
+	          document.querySelector("#main-div").innerHTML = data.assistState.extensionState.completion
+	          const createButton = document.getElementById("create-warranty-button")
+	          if (createButton) {
+	            createButton.addEventListener('click', function() {
+                document.querySelector("#main-div").innerHTML = ticketCreated;
+                fieldUpdate = true;
+                Quiq.updateField("schema.conversation.custom.warrantyClaimRef", "DRL34526")
+              });
+	          }
+	        }
+        }
+      })
+      /*
+      Quiq.on("messageReceived", function (context) {
+        console.log('message', context.text)
+      });
+      */
+    </script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  </body>
+</html>
