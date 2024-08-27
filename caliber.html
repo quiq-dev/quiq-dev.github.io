@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <title>Caliber Collision</title>
+    <link rel="shortcut icon" type="image/jpg" href="https://www.caliber.com/favicon.png"/>
+    <style>
+      body {
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+      }
+      #inline-widget {
+        height: 600px;
+        width: 100%;
+        max-width: 768px;
+        margin: 20px auto;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      /* add styles for smaller screens */
+      @media only screen and (max-width: 600px) {
+        body {
+          background-size: contain;
+        }
+        #inline-widget {
+          height: 500px;
+          margin: 10px auto;
+        }
+      }
+    </style>
+    <script src="https://caliber-stage.quiq-api.com/app/chat-ui/index.js" charset="UTF-8"></script>
+  </head>
+  <body>
+    <div id="inline-widget"></div>
+    <script>
+      var chat = Quiq({
+        pageConfigurationId: 'web-ux-cs',
+        displayMode: 'embedded',
+        containerEl: document.getElementById('inline-widget')
+      });
+    </script>
+  </body>
+</html>
