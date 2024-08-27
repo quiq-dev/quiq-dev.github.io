@@ -14,11 +14,28 @@
         padding: 0;
         font-family: Arial, sans-serif;
       }
+      .container {
+        max-width: 768px;
+        margin: 20px auto;
+        padding: 0 15px;
+      }
+      .input-group {
+        margin-bottom: 20px;
+      }
+      .input-group label {
+        display: inline-block;
+        width: 100px;
+        font-weight: bold;
+      }
+      .input-group input {
+        width: calc(100% - 110px);
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+      }
       #inline-widget {
         height: 600px;
         width: 100%;
-        max-width: 768px;
-        margin: 20px auto;
         border: 1px solid #ccc;
         border-radius: 5px;
       }
@@ -29,14 +46,27 @@
         }
         #inline-widget {
           height: 500px;
-          margin: 10px auto;
+        }
+        .input-group label {
+          display: block;
+          width: 100%;
+          margin-bottom: 5px;
+        }
+        .input-group input {
+          width: 100%;
         }
       }
     </style>
     <script src="https://caliber-stage.quiq-api.com/app/chat-ui/index.js" charset="UTF-8"></script>
   </head>
   <body>
-    <div id="inline-widget"></div>
+    <div class="container">
+      <div class="input-group">
+        <label for="value-input">Value:</label>
+        <input type="text" id="value-input" name="value-input">
+      </div>
+      <div id="inline-widget"></div>
+    </div>
     <script>
       var chat = Quiq({
         pageConfigurationId: 'web-ux-cs'
