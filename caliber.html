@@ -28,7 +28,10 @@
             margin: 10px auto;
             padding: 10px;
             background-color: #fff;
-            /* Removed border-radius and box-shadow */
+            /*
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            */
         }
 
         .logo {
@@ -44,7 +47,7 @@
         }
 
         .input-group {
-            flex: 0 0 48%;
+            flex: 0 0 48%; /* Adjust this value to control the width of the input groups */
         }
 
         .input-group label {
@@ -53,24 +56,29 @@
             font-weight: bold;
             color: var(--secondary-color);
             font-size: 12px;
-            padding-left: 2px;
+            padding-left: 2px; /* This adds a slight indent to the labels */
         }
 
         .input-group input {
             width: 100%;
             padding: 6px;
+            /*
             border: 1px solid #ddd;
             border-radius: 4px;
+            */
             font-size: 14px;
-            box-sizing: border-box;
+            box-sizing: border-box; /* This ensures padding doesn't affect the overall width */
         }
 
         #inline-widget {
             height: 500px;
             width: 100%;
-            /* Removed border */
+            /*
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            */
             background-color: #fff;
-            margin-top: 10px;
+            margin-top: 10px; /* Add some space above the widget */
         }
 
         @media only screen and (max-width: 600px) {
@@ -96,6 +104,24 @@
     <script src="https://caliber-stage.quiq-api.com/app/chat-ui/index.js" charset="UTF-8"></script>
 </head>
 <body>
-    <!-- Rest of the HTML remains the same -->
+    <div class="container">
+        <img src="https://i.postimg.cc/SxNdrb5C/caliber-collision.png" alt="Caliber Collision Logo" class="logo">
+        <div class="input-row">
+            <div class="input-group">
+                <label for="drp-client">DRP Client</label>
+                <input type="text" id="drp-client" name="drp-client" placeholder="Enter DRP Client">
+            </div>
+            <div class="input-group">
+                <label for="state">State</label>
+                <input type="text" id="state" name="state" placeholder="Enter State">
+            </div>
+        </div>
+        <div id="inline-widget"></div>
+    </div>
+    <script>
+        var chat = Quiq({
+            pageConfigurationId: 'web-ux-cs'
+        });
+    </script>
 </body>
 </html>
