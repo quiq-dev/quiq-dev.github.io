@@ -1,0 +1,56 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://demo12.quiq-api.com/app/chat-ui/index.js" charset="UTF-8"></script>
+    <style>
+        body {
+            background-position: center center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            background-size: cover;
+            margin: 0; /* Add this to remove default margins */
+        }
+
+        @media (max-width: 480px) {
+            body {
+                background-image: url(https://gdr3yfus.neocities.org/Screenshot%202025-01-02%20at%205.17.49%E2%80%AFPM.png);
+            }
+        }
+
+        @media (min-width: 481px) and (max-width: 1024px) {
+            body {
+                background-image: url(https://gdr3yfus.neocities.org/Screenshot%202025-01-02%20at%205.17.49%E2%80%AFPM.png);
+            }
+        }
+
+        @media (min-width: 1025px) {
+            body {
+                background-image: url(https://gdr3yfus.neocities.org/Screenshot%202025-01-02%20at%205.17.49%E2%80%AFPM.png);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        var chat = Quiq({
+            pageConfigurationId: 'urbn'
+        });
+        
+        // Temporary Fix: Fetch with no-cors
+        fetch('https://sentry.goquiq.com/api/10/envelope/?sentry_version=7&sentry_key=f2181ba15bcf4ccaa1fcfd6dfb7949ab&sentry_client=sentry.javascript.browser%2F8.46.0', {
+            method: 'GET',
+            mode: 'no-cors'
+        })
+        .then(response => {
+            console.log('CORS workaround response:', response);
+        })
+        .catch(error => {
+            console.error('Error with CORS workaround:', error);
+        });
+    </script>
+</body>
+</html>
+    </script>
+</body>
+</html>
