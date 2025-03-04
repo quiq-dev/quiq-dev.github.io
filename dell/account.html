@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dell OpenManage Server Administrator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+        }
+        .header {
+            background-color: #2a2e33;
+            color: white;
+            padding: 10px;
+            font-size: 16px;
+        }
+        .container {
+            display: flex;
+            height: calc(100vh - 40px);
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #000;
+            color: white;
+            padding: 10px;
+            font-size: 13px;
+            overflow-y: auto;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding-left: 20px;
+        }
+        .sidebar li {
+            padding: 3px 0;
+        }
+        .main {
+            flex-grow: 1;
+            padding: 20px;
+        }
+        .section-header {
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+        .links a {
+            color: #0066cc;
+            text-decoration: none;
+            margin-right: 15px;
+        }
+        .info-box {
+            background-color: #f1f7fd;
+            border: 1px solid #d1e4f7;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 12px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            font-size: 13px;
+        }
+        .button {
+            padding: 4px 8px;
+            font-size: 13px;
+        }
+    </style>
+    <script src="https://demo12.quiq-api.com/app/chat-ui/index.js" charset="UTF-8"></script>
+</head>
+<body>
+    <div class="header">OPENMANAGE™ SERVER ADMINISTRATOR</div>
+    <div class="container">
+        <div class="sidebar">
+            <strong>System</strong>
+            <ul>
+                <li>Main System Chassis
+                    <ul>
+                        <li>Batteries</li>
+                        <li>BIOS</li>
+                        <li>Fans</li>
+                        <li>Firmware</li>
+                        <li>Hardware Performance</li>
+                        <li>Intrusion</li>
+                        <li>Memory</li>
+                        <li>Network</li>
+                        <li>Ports</li>
+                        <li>Power Management</li>
+                        <li>Power Supplies</li>
+                        <li>Processors</li>
+                        <li>Remote Access</li>
+                        <li>Removable Flash Media</li>
+                        <li>Slots</li>
+                        <li>Temperatures</li>
+                        <li>Voltages</li>
+                    </ul>
+                </li>
+                <li>Software
+                    <ul>
+                        <li>Operating System</li>
+                    </ul>
+                </li>
+                <li><strong>Storage</strong></li>
+            </ul>
+        </div>
+
+        <div class="main">
+            <div class="section-header"><strong>Storage Dashboard</strong></div>
+            <div class="links">
+                <a href="#">Set Hot Spare Protection Policy</a>
+                <a href="#">Check Alert Log</a>
+            </div>
+
+            <div class="info-box">
+                To view more details, navigate to the component's Information/Configuration page using the left navigation tree.
+            </div>
+
+            <table>
+                <tr>
+                    <th>Severity Component</th>
+                    <th>Available Tasks</th>
+                    <th>Select Report</th>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="checkbox" checked> PERC 6/i Integrated<br>
+                        Virtual Disk Details<br>
+                        VD0 (RAID-1)
+                    </td>
+                    <td>
+                        <select>
+                            <option>Available Tasks</option>
+                        </select>
+                        <button class="button">Execute</button>
+                    </td>
+                    <td>
+                        <select>
+                            <option>Select Report</option>
+                        </select>
+                        <button class="button">Execute</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <script>
+        var chat = Quiq({
+          pageConfigurationId: 'service'
+        });
+      </script>
+</body>
+</html>
