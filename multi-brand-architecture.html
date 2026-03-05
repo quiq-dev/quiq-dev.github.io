@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accor Multi-Brand AI Architecture</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"DM Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            quartz: '#F7F4ED',
+                            sage: '#D8EBD1',
+                            gold: '#E8CF51',
+                            amber: '#F59700',
+                            sapphire: '#213FD9',
+                            bigsky: '#1A1A69',
+                            midnight: '#181140',
+                            obsidian: '#211B08',
+                            onyx: '#141414'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { margin: 0; padding: 0; background-color: #333; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            background-color: #F7F4ED;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            background-image: linear-gradient(to right, #213FD910 1px, transparent 1px), linear-gradient(to bottom, #213FD910 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        
+        /* Thin structural line styles mimicking the reference image */
+        .structural-dot { width: 6px; height: 6px; background-color: #181140; border-radius: 50%; position: absolute; }
+        
+        /* Smooth transitions for cartridges */
+        .cartridge-btn {
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+        }
+        .cartridge-btn:hover:not(.active-cart) {
+            transform: scale(1.02) translateX(-5px);
+            opacity: 0.9;
+        }
+        .active-cart {
+            border-width: 2px !important;
+            border-color: #213FD9 !important;
+            box-shadow: 4px 4px 0 0 #213FD9;
+            transform: scale(1.05) translateX(-10px);
+            opacity: 1 !important;
+            z-index: 20;
+        }
+
+        /* SVG Data Flow Animation */
+        @keyframes flowData {
+            to { stroke-dashoffset: -24; }
+        }
+        .flow-active {
+            stroke-dasharray: 6 6;
+            animation: flowData 0.6s linear infinite;
+            stroke: #213FD9 !important;
+            stroke-width: 3px !important;
+            opacity: 1 !important;
+        }
+        .base-path {
+            stroke-dasharray: 4 4;
+            stroke: #1A1A69;
+            stroke-width: 1.5px;
+            opacity: 0.2;
+            transition: all 0.3s ease;
+        }
+
+        /* Plug-in Animation Classes */
+        .slot-out {
+            transform: translate(-50%, -90px) scale(0.95);
+            opacity: 0;
+        }
+        .slot-in {
+            transform: translate(-50%, 0) scale(1);
+            opacity: 1;
+        }
+
+        /* Pulse Animation */
+        @keyframes processPulse {
+            0% { box-shadow: 0 0 0 0 var(--pulse-color); }
+            70% { box-shadow: 0 0 0 15px transparent; }
+            100% { box-shadow: 0 0 0 0 transparent; }
+        }
+        .processing {
+            animation: processPulse 1s ease-out;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="slide-container text-brand-midnight relative">
+        
+        <!-- Header Section -->
+        <header class="px-12 pt-12 pb-6 relative z-10 flex justify-between items-start">
+            <div>
+                <h1 class="text-5xl font-bold text-brand-sapphire tracking-tight mb-2">Scalable Multi-Brand Architecture</h1>
+                <p class="text-2xl text-brand-bigsky font-medium">The "Plug-and-Play Cartridge" Model for Accor Hotels</p>
+                <div class="w-[800px] h-[1px] bg-brand-sapphire mt-6 relative">
+                    <div class="structural-dot -right-1 -top-[2.5px]"></div>
+                </div>
+            </div>
+            
+            <div class="bg-brand-sage/30 border border-brand-sapphire/30 px-4 py-2 rounded flex items-center gap-2 shadow-sm">
+                <i data-lucide="mouse-pointer-click" class="w-5 h-5 text-brand-sapphire animate-pulse"></i>
+                <span class="text-sm font-bold text-brand-midnight">Click a Brand to run the flow</span>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="flex w-full h-full px-12 pb-12 gap-10 relative z-10 mt-2">
+            
+            <!-- LEFT: Runtime Architecture (Hero Interactive Area) -->
+            <section class="w-[68%] h-full relative">
+                <div class="mb-4 inline-block bg-brand-sapphire text-white px-3 py-1 text-sm font-bold tracking-widest uppercase shadow-sm">1. Runtime Architecture</div>
+                <p class="text-brand-midnight text-base mb-2 max-w-2xl leading-relaxed"><b>Centralized Intelligence:</b> At conversation initialization, the Core Agent seamlessly "plugs in" the correct brand's AI Service cartridge to use throughout the entire conversation.</p>
+                
+                <div class="relative w-full h-[400px] mt-6">
+                    
+                    <!-- SVG Connections (Background) -->
+                    <svg class="absolute inset-0 w-full h-full pointer-events-none" style="z-index: 0;">
+                        <!-- Line: Guest to Agent -->
+                        <path d="M 128 230 L 170 230" class="base-path" id="path-in" />
+                        <!-- Line: Agent to Output -->
+                        <path d="M 426 230 L 466 230" class="base-path" id="path-out" />
+                    </svg>
+
+                    <!-- 4. CARTRIDGE LIBRARY (Top Horizontal Shelf) -->
+                    <div class="absolute top-0 left-0 w-full flex flex-row items-center justify-center gap-4 z-30">
+                        <div onclick="resetScenario()" class="text-[10px] font-bold text-brand-sapphire uppercase tracking-widest px-3 py-1.5 bg-brand-sapphire/5 border border-brand-sapphire/20 rounded-md shadow-sm mr-2 text-center cursor-pointer hover:bg-brand-sapphire/10 transition-colors" title="Reset Simulation">Available Brand<br>AI Services <i data-lucide="rotate-ccw" class="w-3 h-3 inline-block ml-0.5 mb-0.5"></i></div>
+                        
+                        <!-- Cartridge 1: Sofitel -->
+                        <div id="btn-sofitel" onclick="playScenario('sofitel')" class="cartridge-btn w-44 bg-white border border-brand-sapphire/50 flex opacity-70 relative">
+                            <div class="w-2 bg-brand-gold border-r border-brand-sapphire/50"></div>
+                            <div class="p-3 w-full pointer-events-none flex justify-between items-center">
+                                <div>
+                                    <h4 class="font-bold text-brand-midnight text-sm flex items-center gap-1.5"><i data-lucide="gem" class="w-3.5 h-3.5 text-brand-gold"></i> Sofitel</h4>
+                                    <span class="text-[9px] text-brand-bigsky">"French Elegance"</span>
+                                </div>
+                                <i data-lucide="plug" class="w-4 h-4 text-brand-sapphire/40"></i>
+                            </div>
+                        </div>
+
+                        <!-- Cartridge 2: Orient Express -->
+                        <div id="btn-orient" onclick="playScenario('orient')" class="cartridge-btn w-44 bg-white border border-brand-sapphire/50 flex opacity-70 relative">
+                            <div class="w-2 bg-brand-sage border-r border-brand-sapphire/50"></div>
+                            <div class="p-3 w-full pointer-events-none flex justify-between items-center">
+                                <div>
+                                    <h4 class="font-bold text-brand-midnight text-sm flex items-center gap-1.5"><i data-lucide="train-front" class="w-3.5 h-3.5 text-brand-sage"></i> Orient Exp.</h4>
+                                    <span class="text-[9px] text-brand-bigsky">"Classic Journey"</span>
+                                </div>
+                                <i data-lucide="plug" class="w-4 h-4 text-brand-sapphire/40"></i>
+                            </div>
+                        </div>
+
+                        <!-- Cartridge 3: Novotel -->
+                        <div id="btn-novotel" onclick="playScenario('novotel')" class="cartridge-btn w-44 bg-white border border-brand-sapphire/50 flex opacity-70 relative">
+                            <div class="w-2 bg-brand-amber border-r border-brand-sapphire/50"></div>
+                            <div class="p-3 w-full pointer-events-none flex justify-between items-center">
+                                <div>
+                                    <h4 class="font-bold text-brand-midnight text-sm flex items-center gap-1.5"><i data-lucide="building-2" class="w-3.5 h-3.5 text-brand-amber"></i> Novotel</h4>
+                                    <span class="text-[9px] text-brand-bigsky">"Modern Family"</span>
+                                </div>
+                                <i data-lucide="plug" class="w-4 h-4 text-brand-sapphire/40"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 1. GUEST INPUT (Far Left) -->
+                    <div class="absolute left-0 top-[160px] w-32 flex flex-col items-center z-10">
+                        <div id="guest-icon" class="w-16 h-16 rounded-full border-2 border-brand-sapphire bg-white flex items-center justify-center shadow-md transition-all">
+                            <i data-lucide="user" class="w-8 h-8 text-brand-sapphire"></i>
+                        </div>
+                        <span class="font-bold text-brand-midnight mt-2">Guest</span>
+                        <div class="bg-white border border-brand-sapphire/30 p-3 rounded-lg shadow-sm relative mt-2 text-center w-full">
+                            <span class="text-xs text-brand-bigsky italic font-medium">"I need a late checkout..."</span>
+                            <div class="absolute -right-1.5 top-1/2 -translate-y-1/2 w-3 h-3 bg-white border-r border-t border-brand-sapphire/30 rotate-45"></div>
+                        </div>
+                    </div>
+
+                    <!-- 2. CORE AI AGENT (Center Left) -->
+                    <div class="absolute left-[170px] top-[160px] w-64 z-20">
+                        
+                        <!-- THE HARDWARE SLOT (Behind the main box) -->
+                        <div class="absolute -top-4 left-1/2 -translate-x-1/2 w-40 h-8 bg-brand-obsidian rounded-t-lg border-2 border-b-0 border-brand-sapphire z-0 flex justify-center pt-1">
+                            <!-- Slot teeth -->
+                            <div class="w-24 h-1 bg-brand-onyx/50 rounded flex justify-between px-1">
+                                <div class="w-1 h-full bg-brand-gold/30"></div><div class="w-1 h-full bg-brand-gold/30"></div><div class="w-1 h-full bg-brand-gold/30"></div><div class="w-1 h-full bg-brand-gold/30"></div>
+                            </div>
+                        </div>
+
+                        <!-- THE PLUGGABLE CARTRIDGE -->
+                        <div id="plugged-cartridge" class="absolute -top-16 left-1/2 w-36 bg-white border-2 border-brand-sapphire shadow-lg z-10 flex flex-col items-center transition-all duration-500 ease-out slot-out">
+                            <!-- Cartridge Header -->
+                            <div id="cart-header" class="w-full h-2 bg-brand-gold border-b-2 border-brand-sapphire"></div>
+                            <!-- Cartridge Body -->
+                            <div class="p-2 w-full flex items-center gap-2 justify-center">
+                                <i id="cart-icon" data-lucide="gem" class="w-4 h-4 text-brand-sapphire"></i>
+                                <span id="cart-text" class="text-xs font-bold text-brand-midnight">Sofitel Core</span>
+                            </div>
+                            <!-- Connector Pins -->
+                            <div class="w-20 h-2 bg-brand-obsidian flex justify-evenly items-end pb-[1px] border-x border-b border-brand-sapphire">
+                                <div class="w-1 h-1.5 bg-brand-gold"></div><div class="w-1 h-1.5 bg-brand-gold"></div><div class="w-1 h-1.5 bg-brand-gold"></div><div class="w-1 h-1.5 bg-brand-gold"></div>
+                            </div>
+                        </div>
+
+                        <!-- Main Agent Box -->
+                        <div id="agent-box" class="relative bg-white border-2 border-brand-sapphire p-5 shadow-[4px_4px_0_0_#1A1A69] flex flex-col items-center z-20 transition-all duration-300">
+                            <i data-lucide="cpu" class="w-10 h-10 text-brand-sapphire mb-2"></i>
+                            <h3 class="font-bold text-xl text-brand-midnight text-center leading-tight">Core AI Agent</h3>
+                            <div class="w-full h-[1px] bg-brand-sapphire/20 my-3"></div>
+                            <p class="text-xs text-brand-midnight text-center leading-snug"><b>Core Engine Stability:</b> A single, powerful Core AI Agent manages the complex runtime Planner-Guide-Tool loops, system guardrails, and state management.</p>
+                        </div>
+                    </div>
+
+                    <!-- 3. BRAND SPECIFIC OUTPUT (Center Right) -->
+                    <div id="output-box" class="absolute left-[470px] top-[170px] w-64 opacity-0 transition-all duration-500 translate-x-4 z-10">
+                        <div class="bg-white border-2 border-brand-sapphire rounded-lg shadow-lg relative p-4 w-full">
+                            <!-- Arrow pointing back -->
+                            <div class="absolute -left-2 top-1/2 -translate-y-1/2 w-3 h-3 bg-white border-l border-b border-brand-sapphire rotate-45"></div>
+                            
+                            <div class="flex items-center gap-2 mb-2 pb-2 border-b border-brand-sapphire/10">
+                                <div id="output-dot" class="w-3 h-3 rounded-full bg-brand-gold"></div>
+                                <span id="output-brand" class="text-xs font-bold text-brand-midnight uppercase tracking-wide">Sofitel Response</span>
+                            </div>
+                            <p id="output-text" class="text-sm text-brand-bigsky font-medium leading-snug">
+                                "Bonjour! We have extended your checkout to 2:00 PM. Merci."
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- RIGHT: Developer Workflow (Context) -->
+            <section class="w-[32%] h-full flex flex-col pt-1 pl-4 border-l border-brand-sapphire/20">
+                <div class="mb-4 inline-block bg-brand-sage text-brand-midnight border border-brand-sapphire px-3 py-1 text-sm font-bold tracking-widest uppercase self-start shadow-sm">2. Parallel Workflow</div>
+                
+                <div class="bg-white/80 border border-brand-sapphire p-5 relative h-[400px]">
+                    <div class="absolute top-0 right-0 w-8 h-8 bg-brand-sapphire/10 border-l border-b border-brand-sapphire"></div>
+                    
+                    <h3 class="text-lg font-bold text-brand-midnight mb-2 leading-tight">Isolated Brand Independence</h3>
+                    <p class="text-xs text-brand-bigsky mb-6 leading-relaxed">Unique brand identities are isolated into dedicated AI Service modules, acting like interchangeable data cartridges.</p>
+                    
+                    <div class="space-y-4 relative">
+                        <!-- Dev 1 -->
+                        <div class="flex items-center justify-between relative z-10">
+                            <div class="flex items-center gap-2">
+                                <div class="w-7 h-7 rounded-full bg-brand-gold flex items-center justify-center text-brand-midnight font-bold text-[10px] shadow-sm">S</div>
+                                <span class="text-[11px] font-bold text-brand-midnight">Sofitel</span>
+                            </div>
+                            <div class="w-12 h-[1px] bg-brand-sapphire border-dashed border-b border-brand-sapphire/50"></div>
+                            <div class="text-[10px] border border-brand-sapphire px-2 py-1 bg-white text-brand-sapphire font-bold flex items-center gap-1 shadow-sm">
+                                <i data-lucide="file-edit" class="w-3 h-3"></i> Sofitel Cartridge
+                            </div>
+                        </div>
+
+                        <!-- Dev 2 -->
+                        <div class="flex items-center justify-between relative z-10">
+                            <div class="flex items-center gap-2">
+                                <div class="w-7 h-7 rounded-full bg-brand-sage flex items-center justify-center text-brand-midnight font-bold text-[10px] shadow-sm">OE</div>
+                                <span class="text-[11px] font-bold text-brand-midnight">Orient Exp.</span>
+                            </div>
+                            <div class="w-12 h-[1px] bg-brand-sapphire border-dashed border-b border-brand-sapphire/50"></div>
+                            <div class="text-[10px] border border-brand-sapphire/50 px-2 py-1 bg-white/50 text-brand-bigsky flex items-center gap-1">
+                                <i data-lucide="file-edit" class="w-3 h-3"></i> O.E. Cartridge
+                            </div>
+                        </div>
+
+                        <!-- Dev 3 -->
+                        <div class="flex items-center justify-between relative z-10">
+                            <div class="flex items-center gap-2">
+                                <div class="w-7 h-7 rounded-full bg-brand-amber flex items-center justify-center text-brand-obsidian font-bold text-[10px] shadow-sm">N</div>
+                                <span class="text-[11px] font-bold text-brand-midnight">Novotel</span>
+                            </div>
+                            <div class="w-12 h-[1px] bg-brand-sapphire border-dashed border-b border-brand-sapphire/50"></div>
+                            <div class="text-[10px] border border-brand-sapphire/50 px-2 py-1 bg-white/50 text-brand-bigsky flex items-center gap-1">
+                                <i data-lucide="file-edit" class="w-3 h-3"></i> Novotel Cartridge
+                            </div>
+                        </div>
+
+                        <div class="absolute left-[13px] top-3 bottom-3 w-[1px] bg-brand-sapphire/20 z-0"></div>
+                    </div>
+
+                    <div class="mt-5 pt-4 border-t border-brand-sapphire/20">
+                        <ul class="text-[11px] font-medium text-brand-midnight space-y-1.5">
+                            <li class="flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-brand-sapphire"></i> Distributed Governance</li>
+                            <li class="flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-brand-sapphire"></i> Maintain Brand Specific Identity & Tone</li>
+                            <li class="flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-brand-sapphire"></i> Brand Specific Process Guides and Instructions</li>
+                            <li class="flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-brand-sapphire"></i> Zero Risk of Cross-Brand Overwrites</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer / Branding -->
+        <div class="absolute bottom-6 right-12 flex items-center gap-4 z-10">
+             <div class="text-xs font-bold text-brand-bigsky tracking-wider">POWERED BY</div>
+             <div class="text-[28px] font-bold text-brand-sapphire tracking-tighter" style="font-family: Arial, sans-serif;">Quiq</div>
+        </div>
+        
+        <!-- Abstract geometric decoration bottom left -->
+        <div class="absolute bottom-0 left-0 w-32 h-32 opacity-20 pointer-events-none z-0">
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 100 L100 0 L100 100 Z" fill="#213FD9" />
+                <circle cx="20" cy="80" r="5" fill="#E8CF51" />
+            </svg>
+        </div>
+
+    </div>
+
+    <!-- Interactive Choreography Logic -->
+    <script>
+        lucide.createIcons();
+
+        // Data Models
+        const brands = {
+            sofitel: { name: 'Sofitel', color: '#E8CF51', icon: 'gem', border: '#213FD9', response: 'Bonjour! We have extended your checkout to 2:00 PM. Merci.' },
+            orient: { name: 'Orient Express', color: '#D8EBD1', icon: 'train-front', border: '#213FD9', response: 'Your journey remains uninterrupted. Late checkout is arranged.' },
+            novotel: { name: 'Novotel', color: '#F59700', icon: 'building-2', border: '#213FD9', response: 'All set! Late checkout is confirmed so your family can relax.' }
+        };
+
+        const sleep = ms => new Promise(r => setTimeout(r, ms));
+        let isAnimating = false;
+
+        async function resetScenario() {
+            if (isAnimating) return;
+            isAnimating = true;
+
+            // Unselect all list buttons
+            document.querySelectorAll('.cartridge-btn').forEach(el => el.classList.remove('active-cart'));
+
+            // Hide output, stop flow lines, reset agent box
+            const outputBox = document.getElementById('output-box');
+            outputBox.classList.add('opacity-0', 'translate-x-4');
+            outputBox.classList.remove('opacity-100', 'translate-x-0');
+            
+            document.getElementById('path-in').classList.remove('flow-active');
+            document.getElementById('path-out').classList.remove('flow-active');
+            
+            const agentBox = document.getElementById('agent-box');
+            agentBox.style.backgroundColor = 'white';
+            agentBox.style.borderColor = '#213FD9';
+            agentBox.classList.remove('processing');
+
+            const slotCart = document.getElementById('plugged-cartridge');
+            
+            // Unplug animation (if something was there)
+            if (slotCart.classList.contains('slot-in')) {
+                slotCart.classList.remove('slot-in');
+                slotCart.classList.add('slot-out');
+                await sleep(400); // wait for unplug
+            }
+
+            isAnimating = false;
+        }
+
+        async function playScenario(brandId) {
+            if (isAnimating) return;
+            isAnimating = true;
+
+            const b = brands[brandId];
+
+            // --- 0. RESET UI ---
+            // Unselect all list buttons
+            document.querySelectorAll('.cartridge-btn').forEach(el => el.classList.remove('active-cart'));
+            document.getElementById(`btn-${brandId}`).classList.add('active-cart');
+
+            // Hide output, stop flow lines, reset agent box
+            const outputBox = document.getElementById('output-box');
+            outputBox.classList.add('opacity-0', 'translate-x-4');
+            outputBox.classList.remove('opacity-100', 'translate-x-0');
+            
+            document.getElementById('path-in').classList.remove('flow-active');
+            document.getElementById('path-out').classList.remove('flow-active');
+            
+            const agentBox = document.getElementById('agent-box');
+            agentBox.style.backgroundColor = 'white';
+            agentBox.style.borderColor = '#213FD9';
+            agentBox.classList.remove('processing');
+
+            const slotCart = document.getElementById('plugged-cartridge');
+            
+            // Unplug animation (if something was there)
+            if (slotCart.classList.contains('slot-in')) {
+                slotCart.classList.remove('slot-in');
+                slotCart.classList.add('slot-out');
+                await sleep(400); // wait for unplug
+            }
+
+            // --- 1. PLUG IN CARTRIDGE ---
+            // Update slot cartridge visuals
+            document.getElementById('cart-header').style.backgroundColor = b.color;
+            document.getElementById('cart-text').innerText = b.name + ' Core';
+            
+            const iconHtml = `<i data-lucide="${b.icon}" class="w-4 h-4 text-brand-sapphire"></i>`;
+            const iconContainer = document.getElementById('cart-icon');
+            iconContainer.outerHTML = `<i id="cart-icon" data-lucide="${b.icon}" class="w-4 h-4 text-brand-sapphire"></i>`;
+            lucide.createIcons(); // refresh icon
+
+            // Plug it in
+            slotCart.classList.remove('slot-out');
+            slotCart.classList.add('slot-in');
+            await sleep(600); 
+
+            // --- 2. GUEST MESSAGE FLOWS IN ---
+            document.getElementById('path-in').classList.add('flow-active');
+            const guestIcon = document.getElementById('guest-icon');
+            guestIcon.classList.add('ring-4', 'ring-brand-sapphire/30');
+            await sleep(800);
+            document.getElementById('path-in').classList.remove('flow-active');
+            guestIcon.classList.remove('ring-4', 'ring-brand-sapphire/30');
+
+            // --- 3. CORE AGENT PROCESSES ---
+            agentBox.style.setProperty('--pulse-color', b.color);
+            agentBox.classList.add('processing');
+            agentBox.style.backgroundColor = b.color + '15'; // slight tint
+            agentBox.style.borderColor = b.color;
+            await sleep(1000);
+
+            // --- 4. OUTPUT FLOWS OUT ---
+            document.getElementById('path-out').classList.add('flow-active');
+            await sleep(600);
+
+            // --- 5. SHOW BRAND SPECIFIC OUTPUT ---
+            document.getElementById('path-out').classList.remove('flow-active');
+            agentBox.style.backgroundColor = 'white';
+            agentBox.style.borderColor = '#213FD9';
+
+            document.getElementById('output-dot').style.backgroundColor = b.color;
+            document.getElementById('output-brand').innerText = b.name + ' Response';
+            document.getElementById('output-text').innerText = `"${b.response}"`;
+            
+            outputBox.style.borderColor = b.color;
+            outputBox.classList.remove('opacity-0', 'translate-x-4');
+            outputBox.classList.add('opacity-100', 'translate-x-0');
+
+            isAnimating = false;
+        }
+    </script>
+</body>
+</html>
