@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accor Cartridge Anatomy</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"DM Sans"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            quartz: '#F7F4ED',
+                            sage: '#D8EBD1',
+                            gold: '#E8CF51',
+                            amber: '#F59700',
+                            sapphire: '#213FD9',
+                            bigsky: '#1A1A69',
+                            midnight: '#181140',
+                            obsidian: '#211B08',
+                            onyx: '#141414'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { margin: 0; padding: 0; background-color: #333; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            background-color: #F7F4ED;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            background-image: linear-gradient(to right, #213FD910 1px, transparent 1px), linear-gradient(to bottom, #213FD910 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        
+        .structural-dot { width: 6px; height: 6px; background-color: #181140; border-radius: 50%; position: absolute; }
+        
+        /* Interactive Layer Buttons */
+        .layer-btn {
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+        }
+        .layer-btn:hover:not(.active-layer) {
+            transform: translateX(5px);
+            background-color: #ffffff;
+        }
+        .active-layer {
+            border-color: #213FD9 !important;
+            background-color: #ffffff !important;
+            box-shadow: 4px 4px 0 0 #213FD9;
+            transform: translateX(10px);
+            z-index: 10;
+        }
+
+        /* Connecting Lines */
+        .connect-line {
+            stroke-dasharray: 4 4;
+            stroke: #1A1A69;
+            stroke-width: 1.5px;
+            opacity: 0.3;
+            transition: all 0.3s ease;
+        }
+        .connect-line.active {
+            stroke: #213FD9;
+            stroke-width: 2.5px;
+            opacity: 1;
+            stroke-dasharray: 0;
+        }
+
+        /* Typewriter Animation for Code */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in-content { animation: fadeIn 0.4s ease-out forwards; }
+    </style>
+</head>
+<body>
+
+    <div class="slide-container text-brand-midnight relative">
+        
+        <!-- Header Section -->
+        <header class="px-12 pt-12 pb-6 relative z-10 flex justify-between items-start">
+            <div>
+                <h1 class="text-5xl font-bold text-brand-sapphire tracking-tight mb-2">Cartridge Anatomy Deep Dive</h1>
+                <p class="text-2xl text-brand-bigsky font-medium">What exactly is stored inside a Brand's AI Service "cartridge"?</p>
+                <div class="w-[800px] h-[1px] bg-brand-sapphire mt-6 relative">
+                    <div class="structural-dot -right-1 -top-[2.5px]"></div>
+                </div>
+            </div>
+            
+            <div class="bg-brand-gold/30 border border-brand-sapphire/30 px-4 py-2 rounded flex items-center gap-2 shadow-sm">
+                <i data-lucide="search" class="w-5 h-5 text-brand-sapphire"></i>
+                <span class="text-sm font-bold text-brand-midnight">Click a data layer to inspect</span>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="flex w-full h-full px-12 pb-12 gap-8 relative z-10 mt-2">
+            
+            <!-- LEFT: Exploded View Diagram (40%) -->
+            <section class="w-[45%] h-full relative flex flex-col pt-4">
+                
+                <!-- Diagram Container -->
+                <div class="relative w-full h-[450px] mt-4">
+                    
+                    <!-- SVG Connectors -->
+                    <svg class="absolute inset-0 w-full h-full pointer-events-none" style="z-index: 0;">
+                        <path id="path-config" d="M 120 225 L 180 225 L 180 80 L 220 80" class="connect-line active" fill="none" />
+                        <path id="path-fragments" d="M 120 225 L 150 225 L 150 225 L 220 225" class="connect-line" fill="none" />
+                        <path id="path-guides" d="M 120 225 L 180 225 L 180 370 L 220 370" class="connect-line" fill="none" />
+                    </svg>
+
+                    <!-- Large Cartridge Representation (Sofitel Example) -->
+                    <div class="absolute left-0 top-1/2 -translate-y-1/2 w-32 bg-white border-2 border-brand-sapphire shadow-lg z-10 flex flex-col items-center">
+                        <div class="w-full h-4 bg-brand-gold border-b-2 border-brand-sapphire flex justify-center items-center"></div>
+                        <div class="p-4 w-full flex flex-col items-center gap-2 justify-center py-6">
+                            <i data-lucide="gem" class="w-10 h-10 text-brand-sapphire drop-shadow-md"></i>
+                            <span class="text-sm font-bold text-brand-midnight text-center leading-tight mt-2">Sofitel<br>AI Service</span>
+                        </div>
+                        <div class="w-full h-3 bg-brand-obsidian flex justify-evenly items-end border-t border-brand-sapphire">
+                            <div class="w-1.5 h-2 bg-brand-gold"></div><div class="w-1.5 h-2 bg-brand-gold"></div><div class="w-1.5 h-2 bg-brand-gold"></div><div class="w-1.5 h-2 bg-brand-gold"></div>
+                        </div>
+                    </div>
+
+                    <!-- The 3 Layers (Buttons) -->
+                    <div class="absolute left-[220px] top-0 bottom-0 w-64 flex flex-col justify-between py-6 z-20">
+                        
+                        <!-- Layer 1: Config -->
+                        <div id="btn-config" onclick="showLayer('config')" class="layer-btn active-layer bg-white/80 border border-brand-sapphire/40 p-3 relative flex items-center gap-3">
+                            <div class="w-8 h-8 rounded bg-brand-gold/20 flex items-center justify-center border border-brand-gold">
+                                <i data-lucide="settings-2" class="w-4 h-4 text-brand-midnight"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-brand-midnight uppercase tracking-wider">Layer 1</h4>
+                                <p class="text-xs font-semibold text-brand-bigsky">Brand Config & Identity</p>
+                            </div>
+                        </div>
+
+                        <!-- Layer 2: Fragments -->
+                        <div id="btn-fragments" onclick="showLayer('fragments')" class="layer-btn bg-white/80 border border-brand-sapphire/40 p-3 relative flex items-center gap-3">
+                            <div class="w-8 h-8 rounded bg-brand-sage/20 flex items-center justify-center border border-brand-sage">
+                                <i data-lucide="message-square-quote" class="w-4 h-4 text-brand-midnight"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-brand-midnight uppercase tracking-wider">Layer 2</h4>
+                                <p class="text-xs font-semibold text-brand-bigsky">Brand Instructions</p>
+                            </div>
+                        </div>
+
+                        <!-- Layer 3: Process Guides -->
+                        <div id="btn-guides" onclick="showLayer('guides')" class="layer-btn bg-white/80 border border-brand-sapphire/40 p-3 relative flex items-center gap-3">
+                            <div class="w-8 h-8 rounded bg-brand-amber/20 flex items-center justify-center border border-brand-amber">
+                                <i data-lucide="git-merge" class="w-4 h-4 text-brand-midnight"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-brand-midnight uppercase tracking-wider">Layer 3</h4>
+                                <p class="text-xs font-semibold text-brand-bigsky">Process Guides</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Footer Note -->
+                <div class="mt-8 border-t border-brand-sapphire/20 pt-4 flex items-start gap-3">
+                    <i data-lucide="database" class="w-5 h-5 text-brand-sapphire mt-0.5"></i>
+                    <p class="text-[11px] text-brand-bigsky leading-relaxed">
+                        <b>Knowledge Separation (RAG):</b> Vector search datasets (hotel policies, dining menus, local info) are decoupled from the core logic and securely mapped directly to the active brand cartridge.
+                    </p>
+                </div>
+            </section>
+
+            <!-- RIGHT: Data Inspector Panel (55%) -->
+            <section class="w-[55%] h-full flex flex-col pt-4">
+                
+                <div class="w-full bg-white border-2 border-brand-sapphire shadow-[8px_8px_0_0_#1A1A69] flex flex-col h-[480px] overflow-hidden">
+                    
+                    <!-- Inspector Header -->
+                    <div class="bg-brand-sapphire text-white p-3 flex justify-between items-center border-b border-brand-midnight">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="sliders" class="w-5 h-5 text-brand-gold"></i>
+                            <span class="font-bold text-sm tracking-widest uppercase" id="inspector-title">BRAND CONFIGURATION</span>
+                        </div>
+                        <div class="flex gap-1.5">
+                            <div class="w-2.5 h-2.5 rounded-full bg-white/30"></div>
+                            <div class="w-2.5 h-2.5 rounded-full bg-white/30"></div>
+                            <div class="w-2.5 h-2.5 rounded-full bg-white/30"></div>
+                        </div>
+                    </div>
+
+                    <!-- Inspector Body (Dynamic Content) -->
+                    <div class="bg-slate-50 flex-grow p-5 overflow-y-auto font-sans relative">
+                        
+                        <!-- Content 1: Config -->
+                        <div id="content-config" class="fade-in-content block">
+                            <div class="bg-white border border-gray-200 rounded-md p-5 shadow-sm flex flex-col gap-4">
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-[10px] font-bold text-brand-sapphire uppercase tracking-wider mb-1.5">Organization Name</label>
+                                        <input type="text" class="w-full border border-gray-300 rounded px-3 py-2 text-sm text-brand-midnight font-medium focus:border-brand-sapphire focus:ring-1 focus:ring-brand-sapphire outline-none transition-all" value="Sofitel">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[10px] font-bold text-brand-sapphire uppercase tracking-wider mb-1.5">Human Agent Reference</label>
+                                        <input type="text" class="w-full border border-gray-300 rounded px-3 py-2 text-sm text-brand-midnight font-medium focus:border-brand-sapphire focus:ring-1 focus:ring-brand-sapphire outline-none transition-all" value="an Ambassador">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold text-brand-sapphire uppercase tracking-wider mb-1.5">Brand Description</label>
+                                    <input type="text" class="w-full border border-gray-300 rounded px-3 py-2 text-sm text-brand-midnight font-medium focus:border-brand-sapphire focus:ring-1 focus:ring-brand-sapphire outline-none transition-all" value="A luxury hotel chain blending French elegance with local culture.">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold text-brand-sapphire uppercase tracking-wider mb-1.5">Tone & Voice Instructions</label>
+                                    <textarea class="w-full border border-gray-300 rounded px-3 py-2 text-sm text-brand-midnight font-medium focus:border-brand-sapphire focus:ring-1 focus:ring-brand-sapphire outline-none resize-none transition-all" rows="3">Refined, sophisticated, highly accommodating. Always utilize French pleasantries (e.g., Bonjour, Merci, Très bien).</textarea>
+                                </div>
+                                <div class="flex justify-end mt-2">
+                                    <button class="bg-brand-sapphire text-white text-xs font-bold px-4 py-2 rounded hover:bg-brand-bigsky transition-colors flex items-center gap-2">
+                                        <i data-lucide="save" class="w-3.5 h-3.5"></i> Save Configuration
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Content 2: Fragments (WYSIWYG) -->
+                        <div id="content-fragments" class="fade-in-content hidden h-full flex flex-col">
+                            <div class="mb-3 flex justify-between items-center">
+                                <div class="relative">
+                                    <select id="fragment-select" onchange="updateEditor('fragment')" class="appearance-none text-sm border border-gray-300 rounded pl-3 pr-8 py-1.5 bg-white font-bold text-brand-midnight outline-none focus:border-brand-sapphire cursor-pointer shadow-sm">
+                                        <option value="principles.md">principles.md</option>
+                                        <option value="sensitive-statement.md">sensitive-statement.md</option>
+                                    </select>
+                                    <i data-lucide="chevron-down" class="w-4 h-4 absolute right-2 top-1/2 -translate-y-1/2 text-brand-sapphire pointer-events-none"></i>
+                                </div>
+                                <button class="bg-brand-sapphire text-white text-xs font-bold px-4 py-1.5 rounded hover:bg-brand-bigsky transition-colors flex items-center gap-2 shadow-sm">
+                                    <i data-lucide="save" class="w-3.5 h-3.5"></i> Save Doc
+                                </button>
+                            </div>
+                            
+                            <!-- WYSIWYG Editor Body -->
+                            <div class="border border-gray-300 rounded bg-white flex flex-col flex-grow shadow-sm overflow-hidden">
+                                <!-- Toolbar -->
+                                <div class="bg-gray-50 border-b border-gray-200 px-3 py-2 flex items-center gap-3 text-brand-midnight/70">
+                                    <i data-lucide="bold" class="w-4 h-4 cursor-pointer hover:text-brand-sapphire transition-colors"></i>
+                                    <i data-lucide="italic" class="w-4 h-4 cursor-pointer hover:text-brand-sapphire transition-colors"></i>
+                                    <i data-lucide="underline" class="w-4 h-4 cursor-pointer hover:text-brand-sapphire transition-colors"></i>
+                                    <div class="w-px h-4 bg-gray-300 mx-1"></div>
+                                    <i data-lucide="list" class="w-4 h-4 cursor-pointer hover:text-brand-sapphire transition-colors"></i>
+                                    <i data-lucide="list-ordered" class="w-4 h-4 cursor-pointer hover:text-brand-sapphire transition-colors"></i>
+                                    <div class="w-px h-4 bg-gray-300 mx-1"></div>
+                                    <i data-lucide="link" class="w-4 h-4 cursor-pointer hover:text-brand-sapphire transition-colors"></i>
+                                </div>
+                                <!-- Editable Area -->
+                                <div id="fragment-editor" class="p-5 overflow-y-auto text-sm text-brand-midnight leading-relaxed transition-opacity duration-150" contenteditable="true">
+                                    <h2 class="text-lg font-bold mb-2 text-brand-sapphire">Core Principles</h2>
+                                    <p class="mb-3">You are a digital Ambassador for <strong>[Organization Name]</strong>. You must embody <strong>[Tone]</strong> in every response.</p>
+                                    <ul class="list-disc pl-5 space-y-2 text-brand-bigsky">
+                                        <li>Do not use informal abbreviations (e.g., "thx", "np").</li>
+                                        <li>If a request cannot be fulfilled, politely apologize using the phrase, <em>"I regret to inform you..."</em></li>
+                                        <li>Anticipate the guest's next need. If they ask for late checkout, offer luggage storage or airport transfer information.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Content 3: Process Guides (WYSIWYG) -->
+                        <div id="content-guides" class="fade-in-content hidden h-full flex flex-col">
+                            <div class="mb-3 flex justify-between items-center">
+                                <div class="relative">
+                                    <select id="guide-select" onchange="updateEditor('guide')" class="appearance-none text-sm border border-gray-300 rounded pl-3 pr-8 py-1.5 bg-white font-bold text-brand-midnight outline-none focus:border-brand-sapphire cursor-pointer shadow-sm">
+                                        <option value="account_management_guide.md">account_management_guide.md</option>
+                                        <option value="booking_inquiry_guide.md">booking_inquiry_guide.md</option>
+                                    </select>
+                                    <i data-lucide="chevron-down" class="w-4 h-4 absolute right-2 top-1/2 -translate-y-1/2 text-brand-sapphire pointer-events-none"></i>
+                                </div>
+                                <button class="bg-brand-sapphire text-white text-xs font-bold px-4 py-1.5 rounded hover:bg-brand-bigsky transition-colors flex items-center gap-2 shadow-sm">
+                                    <i data-lucide="save" class="w-3.5 h-3.5"></i> Save Doc
+                                </button>
+                            </div>
+                            
+                            <!-- WYSIWYG Editor Body -->
+                            <div class="border border-gray-300 rounded bg-white flex flex-col flex-grow shadow-sm overflow-hidden">
+                                <!-- Toolbar -->
+                                <div class="bg-gray-50 border-b border-gray-200 px-3 py-2 flex items-center gap-3 text-brand-midnight/70">
+                                    <i data-lucide="bold" class="w-4 h-4 cursor-pointer hover:text-brand-sapphire transition-colors"></i>
+                                    <i data-lucide="italic" class="w-4 h-4 cursor-pointer hover:text-brand-sapphire transition-colors"></i>
+                                    <i data-lucide="underline" class="w-4 h-4 cursor-pointer hover:text-brand-sapphire transition-colors"></i>
+                                    <div class="w-px h-4 bg-gray-300 mx-1"></div>
+                                    <i data-lucide="list" class="w-4 h-4 cursor-pointer hover:text-brand-sapphire transition-colors"></i>
+                                    <i data-lucide="list-ordered" class="w-4 h-4 cursor-pointer hover:text-brand-sapphire transition-colors"></i>
+                                </div>
+                                <!-- Editable Area -->
+                                <div id="guide-editor" class="p-5 overflow-y-auto text-sm text-brand-midnight leading-relaxed transition-opacity duration-150" contenteditable="true">
+                                    <h2 class="text-lg font-bold mb-2 text-brand-sapphire">Account & Reservation Management</h2>
+                                    <p class="mb-4 text-brand-bigsky italic bg-brand-sage/20 p-2 rounded border border-brand-sage">When the guest needs to modify an upcoming reservation or manage their Accor account, follow these steps strictly:</p>
+                                    
+                                    <h3 class="font-bold mt-4 mb-1 border-b border-gray-100 pb-1">Step 1: Verification</h3>
+                                    <p class="mb-3">Check the active state to see if the guest is verified. If not, trigger the <strong>Account Verification Guide</strong> before proceeding. Do NOT ask for the reservation number until verification is complete.</p>
+                                    
+                                    <h3 class="font-bold mt-4 mb-1 border-b border-gray-100 pb-1">Step 2: Collect Details</h3>
+                                    <p class="mb-3">Once verified, use the <strong>Gather Details</strong> action to ask for the confirmation number if it hasn't been provided.</p>
+                                    
+                                    <h3 class="font-bold mt-4 mb-1 border-b border-gray-100 pb-1">Step 3: Action Execution</h3>
+                                    <p>Lookup the reservation details. If the cancellation policy window has passed, express sincere regret and offer to escalate to an Ambassador.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer / Branding -->
+        <div class="absolute bottom-6 right-12 flex items-center gap-4 z-10">
+
+        </div>
+
+    </div>
+
+    <!-- Interactive Logic -->
+    <script>
+        lucide.createIcons();
+
+        // Data for dynamic editor content
+        const editorContent = {
+            'principles.md': `
+                <h2 class="text-lg font-bold mb-2 text-brand-sapphire">Core Principles</h2>
+                <p class="mb-3">You are a digital Ambassador for <strong>[Organization Name]</strong>. You must embody <strong>[Tone]</strong> in every response.</p>
+                <ul class="list-disc pl-5 space-y-2 text-brand-bigsky">
+                    <li>Do not use informal abbreviations (e.g., "thx", "np").</li>
+                    <li>If a request cannot be fulfilled, politely apologize using the phrase, <em>"I regret to inform you..."</em></li>
+                    <li>Anticipate the guest's next need. If they ask for late checkout, offer luggage storage or airport transfer information.</li>
+                </ul>`,
+            'sensitive-statement.md': `
+                <h2 class="text-lg font-bold mb-2 text-red-600">Sensitive Guidance</h2>
+                <p class="mb-3">If the user mentions food allergies, severe dissatisfaction, or security issues, you MUST immediately select the <strong>escalate_to_human_agent</strong> action.</p>
+                <div class="bg-red-50 border-l-4 border-red-500 p-4 mt-4 text-brand-midnight rounded-r">
+                    <strong class="text-red-700">CRITICAL:</strong> Do not attempt to resolve severe safety or medical issues via AI. Always route to the dedicated 24/7 priority team queue.
+                </div>`,
+            'account_management_guide.md': `
+                <h2 class="text-lg font-bold mb-2 text-brand-sapphire">Account & Reservation Management</h2>
+                <p class="mb-4 text-brand-bigsky italic bg-brand-sage/20 p-2 rounded border border-brand-sage">When the guest needs to modify an upcoming reservation or manage their Accor account, follow these steps strictly:</p>
+                <h3 class="font-bold mt-4 mb-1 border-b border-gray-100 pb-1">Step 1: Verification</h3>
+                <p class="mb-3">Check the active state to see if the guest is verified. If not, trigger the <strong>Account Verification Guide</strong> before proceeding. Do NOT ask for the reservation number until verification is complete.</p>
+                <h3 class="font-bold mt-4 mb-1 border-b border-gray-100 pb-1">Step 2: Collect Details</h3>
+                <p class="mb-3">Once verified, use the <strong>Gather Details</strong> action to ask for the confirmation number if it hasn't been provided.</p>
+                <h3 class="font-bold mt-4 mb-1 border-b border-gray-100 pb-1">Step 3: Action Execution</h3>
+                <p>Lookup the reservation details. If the cancellation policy window has passed, express sincere regret and offer to escalate to an Ambassador.</p>`,
+            'booking_inquiry_guide.md': `
+                <h2 class="text-lg font-bold mb-2 text-brand-sapphire">Booking Inquiry Guide</h2>
+                <p class="mb-4 text-brand-bigsky italic bg-brand-sage/20 p-2 rounded border border-brand-sage">Use this guide when the guest is looking to make a new reservation or check availability.</p>
+                <h3 class="font-bold mt-4 mb-1 border-b border-gray-100 pb-1">Step 1: Gather Requirements</h3>
+                <p class="mb-3">Ask the guest for their desired dates, location, and number of guests. Ensure you have all three pieces of information before proceeding.</p>
+                <h3 class="font-bold mt-4 mb-1 border-b border-gray-100 pb-1">Step 2: Availability Search</h3>
+                <p class="mb-3">Use the <strong>search_availability</strong> action with the gathered parameters.</p>
+                <h3 class="font-bold mt-4 mb-1 border-b border-gray-100 pb-1">Step 3: Present Options</h3>
+                <p>Highlight the top 3 available room types. Emphasize brand-specific amenities (e.g., Sofitel's MyBed, Novotel's family rooms) to encourage booking.</p>`
+        };
+
+        function updateEditor(type) {
+            const select = document.getElementById(`${type}-select`);
+            const editor = document.getElementById(`${type}-editor`);
+            const selectedFile = select.value;
+            
+            // Fade out
+            editor.style.opacity = '0';
+            
+            // Swap content and fade back in
+            setTimeout(() => {
+                if (editorContent[selectedFile]) {
+                    editor.innerHTML = editorContent[selectedFile];
+                }
+                editor.style.opacity = '1';
+            }, 150);
+        }
+
+        function showLayer(layerId) {
+            // 1. Reset all buttons and connecting lines
+            document.querySelectorAll('.layer-btn').forEach(btn => btn.classList.remove('active-layer'));
+            document.querySelectorAll('.connect-line').forEach(line => line.classList.remove('active'));
+            
+            // 2. Hide all content in the inspector
+            document.querySelectorAll('.fade-in-content').forEach(content => content.classList.add('hidden'));
+            
+            // 3. Activate selected button and line
+            document.getElementById(`btn-${layerId}`).classList.add('active-layer');
+            document.getElementById(`path-${layerId}`).classList.add('active');
+            
+            // 4. Show corresponding content
+            const contentBox = document.getElementById(`content-${layerId}`);
+            contentBox.classList.remove('hidden');
+            
+            // Restart the fade-in animation by triggering reflow
+            contentBox.style.animation = 'none';
+            contentBox.offsetHeight; /* trigger reflow */
+            contentBox.style.animation = null; 
+
+            // 5. Update Inspector Title
+            const titles = {
+                'config': 'BRAND CONFIGURATION',
+                'fragments': 'BRAND INSTRUCTIONS',
+                'guides': 'PROCESS GUIDES'
+            };
+            document.getElementById('inspector-title').innerText = titles[layerId];
+        }
+    </script>
+</body>
+</html>
