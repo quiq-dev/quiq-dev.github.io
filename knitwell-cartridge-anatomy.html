@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KnitWell Group Cartridge Anatomy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"DM Sans"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            quartz: '#F7F4ED',
+                            sage: '#D8EBD1',
+                            gold: '#E8CF51',
+                            amber: '#F59700',
+                            sapphire: '#213FD9',
+                            bigsky: '#1A1A69',
+                            midnight: '#181140',
+                            obsidian: '#211B08',
+                            onyx: '#141414'
+                        },
+                        /* KnitWell brand accents */
+                        lanebryant: '#C42E6A',
+                        anntaylor: '#383C45',
+                        loft: '#1F8A8A',
+                        talbots: '#B0142E'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { margin: 0; padding: 0; background-color: #141414; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            background-color: #F7F4ED; /* Quartz */
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            background-image: linear-gradient(to right, #1A1A6915 1px, transparent 1px), linear-gradient(to bottom, #1A1A6915 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .structural-dot { width: 6px; height: 6px; background-color: #181140; border-radius: 50%; position: absolute; }
+
+        /* Brand switcher tabs */
+        .brand-tab {
+            transition: all 0.15s ease;
+            cursor: pointer;
+            border-width: 1.5px;
+        }
+        .brand-tab:hover:not(.brand-tab-active) {
+            transform: translateY(-1px);
+            background-color: #ffffff;
+        }
+        .brand-tab-active { background-color: #ffffff; }
+
+        /* Interactive Layer Buttons */
+        .layer-btn {
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+        }
+        .layer-btn:hover:not(.active-layer) {
+            transform: translateX(5px);
+            background-color: #ffffff;
+        }
+        .active-layer {
+            border-color: #F59700 !important; /* Amber */
+            background-color: #ffffff !important;
+            box-shadow: 4px 4px 0 0 #F59700;
+            transform: translateX(10px);
+            z-index: 10;
+        }
+
+        /* Connecting Lines */
+        .connect-line {
+            stroke-dasharray: 4 4;
+            stroke: #181140; /* Midnight */
+            stroke-width: 1.5px;
+            opacity: 0.2;
+            transition: all 0.3s ease;
+        }
+        .connect-line.active {
+            stroke: #F59700; /* Amber */
+            stroke-width: 2.5px;
+            opacity: 1;
+            stroke-dasharray: 0;
+        }
+
+        /* Typewriter Animation for Code */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in-content { animation: fadeIn 0.4s ease-out forwards; }
+    </style>
+</head>
+<body>
+
+    <div class="slide-container text-brand-midnight relative">
+
+        <header class="px-12 pt-12 pb-5 relative z-10 flex justify-between items-start">
+            <div>
+                <h1 class="text-5xl font-bold text-brand-midnight tracking-tight mb-2">Cartridge Anatomy Deep Dive</h1>
+                <p class="text-2xl text-brand-bigsky font-medium">What exactly is stored inside a brand's AI Service "cartridge"?</p>
+                <div class="w-[760px] h-[1px] bg-brand-amber mt-5 relative">
+                    <div class="structural-dot -right-1 -top-[2.5px]"></div>
+                </div>
+            </div>
+
+            <div class="flex flex-col items-end gap-2">
+                <span class="text-[10px] font-bold uppercase tracking-widest text-brand-bigsky">Active Brand Cartridge</span>
+                <div class="flex items-center gap-2">
+                    <button id="tab-lanebryant" onclick="selectBrand('lanebryant')" class="brand-tab flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border border-brand-midnight/20 bg-white text-[11px] font-bold text-brand-midnight"><span class="w-2.5 h-2.5 rounded-full" style="background-color:#C42E6A"></span>Lane Bryant</button>
+                    <button id="tab-anntaylor" onclick="selectBrand('anntaylor')" class="brand-tab flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border border-brand-midnight/20 bg-white text-[11px] font-bold text-brand-midnight"><span class="w-2.5 h-2.5 rounded-full" style="background-color:#383C45"></span>Ann Taylor</button>
+                    <button id="tab-loft" onclick="selectBrand('loft')" class="brand-tab flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border border-brand-midnight/20 bg-white text-[11px] font-bold text-brand-midnight"><span class="w-2.5 h-2.5 rounded-full" style="background-color:#1F8A8A"></span>LOFT</button>
+                    <button id="tab-talbots" onclick="selectBrand('talbots')" class="brand-tab flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border border-brand-midnight/20 bg-white text-[11px] font-bold text-brand-midnight"><span class="w-2.5 h-2.5 rounded-full" style="background-color:#B0142E"></span>Talbots</button>
+                </div>
+                <div class="bg-brand-amber/20 border border-brand-amber/40 px-4 py-1.5 rounded flex items-center gap-2 shadow-sm mt-0.5">
+                    <i data-lucide="search" class="w-4 h-4 text-brand-amber"></i>
+                    <span class="text-xs font-bold text-brand-midnight">Click a data layer to inspect</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="flex w-full h-full px-12 pb-12 gap-8 relative z-10 mt-2">
+
+            <section class="w-[45%] h-full relative flex flex-col pt-2">
+
+                <div class="relative w-full h-[420px] mt-2">
+
+                    <svg class="absolute inset-0 w-full h-full pointer-events-none" style="z-index: 0;">
+                        <path id="path-config" d="M 120 210 L 180 210 L 180 70 L 220 70" class="connect-line active" fill="none" />
+                        <path id="path-fragments" d="M 120 210 L 150 210 L 150 210 L 220 210" class="connect-line" fill="none" />
+                        <path id="path-guides" d="M 120 210 L 180 210 L 180 350 L 220 350" class="connect-line" fill="none" />
+                    </svg>
+
+                    <div class="absolute left-0 top-1/2 -translate-y-1/2 w-32 bg-white border-2 border-brand-midnight shadow-lg z-10 flex flex-col items-center">
+                        <div id="cart-bar" class="w-full h-4 border-b-2 border-brand-midnight flex justify-center items-center" style="background-color:#C42E6A"></div>
+                        <div class="p-4 w-full flex flex-col items-center gap-2 justify-center py-6">
+                            <span id="cart-icon-wrap"><i data-lucide="sparkles" class="w-10 h-10 drop-shadow-md" style="color:#C42E6A"></i></span>
+                            <span id="cart-name" class="text-sm font-bold text-brand-midnight text-center leading-tight mt-2">Lane Bryant<br>AI Service</span>
+                        </div>
+                        <div class="w-full h-3 bg-brand-obsidian flex justify-evenly items-end border-t border-brand-midnight">
+                            <div class="cart-pin w-1.5 h-2" style="background-color:#C42E6A"></div><div class="cart-pin w-1.5 h-2" style="background-color:#C42E6A"></div><div class="cart-pin w-1.5 h-2" style="background-color:#C42E6A"></div><div class="cart-pin w-1.5 h-2" style="background-color:#C42E6A"></div>
+                        </div>
+                    </div>
+
+                    <div class="absolute left-[220px] top-0 bottom-0 w-64 flex flex-col justify-between py-4 z-20">
+
+                        <div id="btn-config" onclick="showLayer('config')" class="layer-btn active-layer bg-white/80 border border-brand-midnight/20 p-3 relative flex items-center gap-3">
+                            <div class="w-8 h-8 rounded bg-brand-gold/20 flex items-center justify-center border border-brand-gold">
+                                <i data-lucide="settings-2" class="w-4 h-4 text-brand-midnight"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-brand-midnight uppercase tracking-wider">Layer 1</h4>
+                                <p class="text-xs font-semibold text-brand-bigsky">Brand Config & Identity</p>
+                            </div>
+                        </div>
+
+                        <div id="btn-fragments" onclick="showLayer('fragments')" class="layer-btn bg-white/80 border border-brand-midnight/20 p-3 relative flex items-center gap-3">
+                            <div class="w-8 h-8 rounded bg-brand-sage/20 flex items-center justify-center border border-brand-sage">
+                                <i data-lucide="message-square-quote" class="w-4 h-4 text-brand-midnight"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-brand-midnight uppercase tracking-wider">Layer 2</h4>
+                                <p class="text-xs font-semibold text-brand-bigsky">Brand Instructions</p>
+                            </div>
+                        </div>
+
+                        <div id="btn-guides" onclick="showLayer('guides')" class="layer-btn bg-white/80 border border-brand-midnight/20 p-3 relative flex items-center gap-3">
+                            <div class="w-8 h-8 rounded bg-brand-sapphire/20 flex items-center justify-center border border-brand-sapphire">
+                                <i data-lucide="git-merge" class="w-4 h-4 text-brand-midnight"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-brand-midnight uppercase tracking-wider">Layer 3</h4>
+                                <p class="text-xs font-semibold text-brand-bigsky">Process Guides</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="mt-6 border-t border-brand-midnight/20 pt-4 flex items-start gap-3">
+                    <i data-lucide="database" class="w-5 h-5 text-brand-amber mt-0.5"></i>
+                    <p class="text-[11px] text-brand-bigsky leading-relaxed">
+                        <b>Knowledge Separation (RAG):</b> Vector search datasets (product catalogs, size &amp; fit charts, return policies, store locations) are decoupled from the core logic and securely mapped directly to the active brand cartridge.
+                    </p>
+                </div>
+            </section>
+
+            <section class="w-[55%] h-full flex flex-col pt-2">
+
+                <div class="w-full bg-white border-2 border-brand-midnight shadow-[8px_8px_0_0_#F59700] flex flex-col h-[480px] overflow-hidden">
+
+                    <div class="bg-brand-midnight text-white p-3 flex justify-between items-center border-b border-brand-obsidian">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="sliders" class="w-5 h-5 text-brand-amber"></i>
+                            <span class="font-bold text-sm tracking-widest uppercase" id="inspector-title">BRAND CONFIGURATION</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span id="inspector-brand" class="text-[10px] font-bold uppercase tracking-wider text-white/70">Lane Bryant</span>
+                            <div class="flex gap-1.5">
+                                <div class="w-2.5 h-2.5 rounded-full bg-white/30"></div>
+                                <div class="w-2.5 h-2.5 rounded-full bg-white/30"></div>
+                                <div class="w-2.5 h-2.5 rounded-full bg-white/30"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 flex-grow p-5 overflow-y-auto font-sans relative">
+
+                        <div id="content-config" class="fade-in-content block">
+                            <div class="bg-white border border-gray-200 rounded-md p-5 shadow-sm flex flex-col gap-4">
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-[10px] font-bold text-brand-bigsky uppercase tracking-wider mb-1.5">Organization Name</label>
+                                        <input id="cfg-org" type="text" class="w-full border border-gray-300 rounded px-3 py-2 text-sm text-brand-midnight font-medium focus:border-brand-amber focus:ring-1 focus:ring-brand-amber outline-none transition-all" value="Lane Bryant">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[10px] font-bold text-brand-bigsky uppercase tracking-wider mb-1.5">Human Agent Reference</label>
+                                        <input id="cfg-agent" type="text" class="w-full border border-gray-300 rounded px-3 py-2 text-sm text-brand-midnight font-medium focus:border-brand-amber focus:ring-1 focus:ring-brand-amber outline-none transition-all" value="a Style Specialist">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold text-brand-bigsky uppercase tracking-wider mb-1.5">Brand Description</label>
+                                    <input id="cfg-desc" type="text" class="w-full border border-gray-300 rounded px-3 py-2 text-sm text-brand-midnight font-medium focus:border-brand-amber focus:ring-1 focus:ring-brand-amber outline-none transition-all" value="A leading plus-size women's fashion brand celebrating confidence, inclusivity, and the beauty of every body.">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold text-brand-bigsky uppercase tracking-wider mb-1.5">Tone & Voice Instructions</label>
+                                    <textarea id="cfg-tone" class="w-full border border-gray-300 rounded px-3 py-2 text-sm text-brand-midnight font-medium focus:border-brand-amber focus:ring-1 focus:ring-brand-amber outline-none resize-none transition-all" rows="3">Confident, warm, and empowering. Champion body positivity and make every shopper feel celebrated, seen, and effortlessly stylish.</textarea>
+                                </div>
+                                <div class="flex justify-end mt-2">
+                                    <button class="bg-brand-amber text-brand-midnight text-xs font-bold px-4 py-2 rounded hover:bg-brand-gold transition-colors flex items-center gap-2">
+                                        <i data-lucide="save" class="w-3.5 h-3.5"></i> Save Configuration
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="content-fragments" class="fade-in-content hidden h-full flex flex-col">
+                            <div class="mb-3 flex justify-between items-center">
+                                <div class="relative">
+                                    <select id="fragment-select" onchange="updateEditor('fragment')" class="appearance-none text-sm border border-gray-300 rounded pl-3 pr-8 py-1.5 bg-white font-bold text-brand-midnight outline-none focus:border-brand-amber cursor-pointer shadow-sm">
+                                        <option value="principles.md">principles.md</option>
+                                        <option value="sensitive-statement.md">sensitive-statement.md</option>
+                                    </select>
+                                    <i data-lucide="chevron-down" class="w-4 h-4 absolute right-2 top-1/2 -translate-y-1/2 text-brand-amber pointer-events-none"></i>
+                                </div>
+                                <button class="bg-brand-amber text-brand-midnight text-xs font-bold px-4 py-1.5 rounded hover:bg-brand-gold transition-colors flex items-center gap-2 shadow-sm">
+                                    <i data-lucide="save" class="w-3.5 h-3.5"></i> Save Doc
+                                </button>
+                            </div>
+
+                            <div class="border border-gray-300 rounded bg-white flex flex-col flex-grow shadow-sm overflow-hidden">
+                                <div class="bg-gray-50 border-b border-gray-200 px-3 py-2 flex items-center gap-3 text-brand-midnight/70">
+                                    <i data-lucide="bold" class="w-4 h-4 cursor-pointer hover:text-brand-amber transition-colors"></i>
+                                    <i data-lucide="italic" class="w-4 h-4 cursor-pointer hover:text-brand-amber transition-colors"></i>
+                                    <i data-lucide="underline" class="w-4 h-4 cursor-pointer hover:text-brand-amber transition-colors"></i>
+                                    <div class="w-px h-4 bg-gray-300 mx-1"></div>
+                                    <i data-lucide="list" class="w-4 h-4 cursor-pointer hover:text-brand-amber transition-colors"></i>
+                                    <i data-lucide="list-ordered" class="w-4 h-4 cursor-pointer hover:text-brand-amber transition-colors"></i>
+                                    <div class="w-px h-4 bg-gray-300 mx-1"></div>
+                                    <i data-lucide="link" class="w-4 h-4 cursor-pointer hover:text-brand-amber transition-colors"></i>
+                                </div>
+                                <div id="fragment-editor" class="p-5 overflow-y-auto text-sm text-brand-midnight leading-relaxed transition-opacity duration-150" contenteditable="true">
+                                    <h2 class="text-lg font-bold mb-2 text-brand-midnight">Core Principles</h2>
+                                    <p class="mb-3">You are a digital <strong>Style Specialist</strong> for <strong>[Organization Name]</strong>. Embody <strong>[Tone]</strong> in every response.</p>
+                                    <ul class="list-disc pl-5 space-y-2 text-brand-bigsky">
+                                        <li>Lead with warmth and confidence — every customer should feel celebrated and seen.</li>
+                                        <li>Never comment negatively on body, size, or fit. Champion body positivity in all guidance.</li>
+                                        <li>If a customer is unsure of size, share the Fit Guide and reassure them exchanges are always free and easy.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="content-guides" class="fade-in-content hidden h-full flex flex-col">
+                            <div class="mb-3 flex justify-between items-center">
+                                <div class="relative">
+                                    <select id="guide-select" onchange="updateEditor('guide')" class="appearance-none text-sm border border-gray-300 rounded pl-3 pr-8 py-1.5 bg-white font-bold text-brand-midnight outline-none focus:border-brand-amber cursor-pointer shadow-sm">
+                                        <option value="order_status_guide.md">order_status_guide.md</option>
+                                        <option value="returns_exchange_guide.md">returns_exchange_guide.md</option>
+                                    </select>
+                                    <i data-lucide="chevron-down" class="w-4 h-4 absolute right-2 top-1/2 -translate-y-1/2 text-brand-amber pointer-events-none"></i>
+                                </div>
+                                <button class="bg-brand-amber text-brand-midnight text-xs font-bold px-4 py-1.5 rounded hover:bg-brand-gold transition-colors flex items-center gap-2 shadow-sm">
+                                    <i data-lucide="save" class="w-3.5 h-3.5"></i> Save Doc
+                                </button>
+                            </div>
+
+                            <div class="border border-gray-300 rounded bg-white flex flex-col flex-grow shadow-sm overflow-hidden">
+                                <div class="bg-gray-50 border-b border-gray-200 px-3 py-2 flex items-center gap-3 text-brand-midnight/70">
+                                    <i data-lucide="bold" class="w-4 h-4 cursor-pointer hover:text-brand-amber transition-colors"></i>
+                                    <i data-lucide="italic" class="w-4 h-4 cursor-pointer hover:text-brand-amber transition-colors"></i>
+                                    <i data-lucide="underline" class="w-4 h-4 cursor-pointer hover:text-brand-amber transition-colors"></i>
+                                    <div class="w-px h-4 bg-gray-300 mx-1"></div>
+                                    <i data-lucide="list" class="w-4 h-4 cursor-pointer hover:text-brand-amber transition-colors"></i>
+                                    <i data-lucide="list-ordered" class="w-4 h-4 cursor-pointer hover:text-brand-amber transition-colors"></i>
+                                </div>
+                                <div id="guide-editor" class="p-5 overflow-y-auto text-sm text-brand-midnight leading-relaxed transition-opacity duration-150" contenteditable="true">
+                                    <h2 class="text-lg font-bold mb-2 text-brand-midnight">Order Status & Tracking</h2>
+                                    <p class="mb-4 text-brand-bigsky italic bg-brand-sage/20 p-2 rounded border border-brand-sage">When a customer asks about an order, follow these steps before sharing any details:</p>
+                                    <h3 class="font-bold mt-4 mb-1 border-b border-gray-100 pb-1">Step 1: Verify</h3>
+                                    <p class="mb-3">Confirm the order number and the email or ZIP on file before disclosing any order details.</p>
+                                    <h3 class="font-bold mt-4 mb-1 border-b border-gray-100 pb-1">Step 2: Look Up</h3>
+                                    <p class="mb-3">Use the <strong>lookup_order</strong> action to retrieve current status and tracking.</p>
+                                    <h3 class="font-bold mt-4 mb-1 border-b border-gray-100 pb-1">Step 3: Share & Anticipate</h3>
+                                    <p>Share tracking and the estimated delivery date. Proactively offer help with sizing or a free exchange in case the fit isn't perfect.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <div class="absolute bottom-6 right-12 flex items-center gap-4 z-10">
+             <div class="text-xs font-bold text-brand-bigsky tracking-wider">POWERED BY</div>
+             <div class="text-[28px] font-bold text-brand-bigsky tracking-tighter flex items-center gap-1" style="font-family: Arial, sans-serif;">
+                 <i data-lucide="chevrons-right" class="w-8 h-8 text-brand-bigsky -mr-1"></i> Quiq
+             </div>
+        </div>
+
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // ---- KnitWell brand cartridge data ----
+        const brandData = {
+            lanebryant: {
+                name: 'Lane Bryant',
+                color: '#C42E6A',
+                icon: 'sparkles',
+                humanAgent: 'a Style Specialist',
+                description: "A leading plus-size women's fashion brand celebrating confidence, inclusivity, and the beauty of every body.",
+                tone: "Confident, warm, and empowering. Champion body positivity and make every shopper feel celebrated, seen, and effortlessly stylish.",
+                docs: {
+                    'principles.md': `
+                        <h2 class="text-lg font-bold mb-2 text-brand-midnight">Core Principles</h2>
+                        <p class="mb-3">You are a digital <strong>Style Specialist</strong> for <strong>[Organization Name]</strong>. Embody <strong>[Tone]</strong> in every response.</p>
+                        <ul class="list-disc pl-5 space-y-2 text-brand-bigsky">
+                            <li>Lead with warmth and confidence — every customer should feel celebrated and seen.</li>
+                            <li>Never comment negatively on body, size, or fit. Champion body positivity in all guidance.</li>
+                            <li>Use inclusive, empowering language. Avoid clinical or apologetic phrasing about sizing.</li>
+                            <li>If a customer is unsure of size, share the Fit Guide and reassure them exchanges are always free and easy.</li>
+                            <li>Reference <strong>Lane Rewards</strong> perks when a customer asks about savings or membership.</li>
+                        </ul>`,
+                    'sensitive-statement.md': `
+                        <h2 class="text-lg font-bold mb-2 text-red-600">Sensitive Guidance</h2>
+                        <p class="mb-3">If a customer raises a <strong>payment dispute</strong>, a <strong>damaged or incorrect item</strong>, or any concern about <strong>discrimination or accessibility</strong>, immediately select the <strong>escalate_to_human_agent</strong> action.</p>
+                        <div class="bg-red-50 border-l-4 border-red-500 p-4 mt-4 text-brand-midnight rounded-r">
+                            <strong class="text-red-700">CRITICAL:</strong> Never debate body image, sizing, or a customer's appearance. Respond with empathy and route to a Style Specialist on the priority care queue.
+                        </div>`,
+                    'order_status_guide.md': `
+                        <h2 class="text-lg font-bold mb-2 text-brand-midnight">Order Status & Tracking</h2>
+                        <p class="mb-4 text-brand-bigsky italic bg-brand-sage/20 p-2 rounded border border-brand-sage">When a customer asks about an order, follow these steps before sharing any details:</p>
+                        <h3 class="font-bold mt-4 mb-1 border-b border-gray-100 pb-1">Step 1: Verify</h3>
+                        <p class="mb-3">Confirm the order number and the email or ZIP on file before disclosing any order details.</p>
+                        <h3 class="font-bold mt-4 mb-1 border-b border-gray-100 pb-1">Step 2: Look Up</h3>
+                        <p class="mb-3">Use the <strong>lookup_order</strong> action to retrieve current status and tracking.</p>
+                        <h3 class="font-bold mt-4 mb-1 border-b border-gray-100 pb-1">Step 3: Share & Anticipate</h3>
+                        <p>Share tracking and the estimated delivery date. Proactively offer help with sizing or a free exchange in case the fit isn't perfect.</p>`,
+                    'returns_exchange_guide.md': `
+                        <h2 class="text-lg font-bold mb-2 text-brand-midnight">Returns & Exchanges</h2>
+                        <p class="mb-4 text-brand-bigsky italic bg-brand-sage/20 p-2 rounded border border-brand-sage">Use this guide whenever a customer wants to return or exchange an item. Reassure them it is free and easy.</p>
+                        <h3 class="font-bold mt-4 mb-1 border-b border-gray-100 pb-1">Step 1: Confirm Item & Reason</h3>
+                        <p class="mb-3">Ask which item and the reason (size, fit, or style). Lead with reassurance — exchanges are always complimentary.</p>
+                        <h3 class="font-bold mt-4 mb-1 border-b border-gray-100 pb-1">Step 2: Check Eligibility</h3>
+                        <p class="mb-3">Use <strong>check_return_eligibility</strong> to confirm the item is within the return window and in original condition.</p>
+                        <h3 class="font-bold mt-4 mb-1 border-b border-gray-100 pb-1">Step 3: Make It Effortless</h3>
+                        <p>For a size issue, proactively start a size exchange with <strong>create_exchange</strong> and confirm free shipping on the replacement.</p>`
+                }
+            },
+            anntaylor: {
+                name: 'Ann Taylor',
+                color: '#383C45',
+                icon: 'briefcase',
+                humanAgent: 'a Style Consultant',
+                description: "A modern American brand offering polished, sophisticated wardrobe essentials for the professional woman.",
+                tone: "Polished, refined, and professional. Communicate with effortless sophistication and an editorial, put-together sensibility.",
+                docs: {
+                    'principles.md': `
+                        <h2 class="text-lg font-bold mb-2 text-brand-midnight">Core Principles</h2>
+                        <p class="mb-3">You are a digital <strong>Style Consultant</strong> for <strong>[Organization Name]</strong>. Embody <strong>[Tone]</strong> in every response.</p>
+                        <ul class="list-disc pl-5 space-y-2 text-brand-bigsky">
+                            <li>Maintain an elevated, editorial tone. Use complete sentences; never slang or informal abbreviations.</li>
+                            <li>Be precise and concise — respect the client's time.</li>
+                            <li>Offer tasteful styling suggestions where natural (e.g., pairing a tailored blazer with the dress).</li>
+                            <li>Reference <strong>StyleRewards</strong> benefits when a client asks about loyalty or savings.</li>
+                        </ul>`,
+                    'sensitive-statement.md': `
+                        <h2 class="text-lg font-bold mb-2 text-red-600">Sensitive Guidance</h2>
+                        <p class="mb-3">If a client raises a <strong>payment dispute</strong>, a <strong>damaged or incorrect item</strong>, or a concern about <strong>discrimination or accessibility</strong>, immediately select the <strong>escalate_to_human_agent</strong> action.</p>
+                        <div class="bg-red-50 border-l-4 border-red-500 p-4 mt-4 text-brand-midnight rounded-r">
+                            <strong class="text-red-700">CRITICAL:</strong> Do not attempt to resolve sensitive billing or safety matters via AI. Hand off graciously to a Style Consultant on the priority queue.
+                        </div>`,
+                    'order_status_guide.md': `
+                        <h2 class="text-lg font-bold mb-2 text-brand-midnight">Order Status & Tracking</h2>
+                        <p class="mb-4 text-brand-bigsky italic bg-brand-sage/20 p-2 rounded border border-brand-sage">When a client inquires about an order, proceed with discretion and precision:</p>
+                        <h3 class="font-bold mt-4 mb-1 border-b border-gray-100 pb-1">Step 1: Verify</h3>
+                        <p class="mb-3">Confirm the order number alongside the email or ZIP on file before sharing details.</p>
+                        <h3 class="font-bold mt-4 mb-1 border-b border-gray-100 pb-1">Step 2: Look Up</h3>
+                        <p class="mb-3">Use the <strong>lookup_order</strong> action to retrieve status and tracking.</p>
+                        <h3 class="font-bold mt-4 mb-1 border-b border-gray-100 pb-1">Step 3: Present Clearly</h3>
+                        <p>Present tracking and the estimated arrival date succinctly, and offer a complimentary exchange should the fit require adjusting.</p>`,
+                    'returns_exchange_guide.md': `
+                        <h2 class="text-lg font-bold mb-2 text-brand-midnight">Returns & Exchanges</h2>
+                        <p class="mb-4 text-brand-bigsky italic bg-brand-sage/20 p-2 rounded border border-brand-sage">Use this guide to arrange a return or exchange with a polished, effortless experience.</p>
+                        <h3 class="font-bold mt-4 mb-1 border-b border-gray-100 pb-1">Step 1: Confirm Item & Reason</h3>
+                        <p class="mb-3">Confirm the item and reason for return. Acknowledge the request graciously.</p>
+                        <h3 class="font-bold mt-4 mb-1 border-b border-gray-100 pb-1">Step 2: Check Eligibility</h3>
+                        <p class="mb-3">Use <strong>check_return_eligibility</strong> to verify the item is within the return window and in original condition.</p>
+                        <h3 class="font-bold mt-4 mb-1 border-b border-gray-100 pb-1">Step 3: Arrange the Exchange</h3>
+                        <p>Arrange the exchange via <strong>create_exchange</strong> and confirm complimentary shipping, noting an estimated 3–5 business-day arrival.</p>`
+                }
+            },
+            loft: {
+                name: 'LOFT',
+                color: '#1F8A8A',
+                icon: 'flower-2',
+                humanAgent: 'a Stylist',
+                description: "An approachable women's brand offering relaxed, feminine, and versatile everyday style.",
+                tone: "Friendly, relaxed, and upbeat. Speak like a helpful friend — easygoing, warm, and approachable.",
+                docs: {
+                    'principles.md': `
+                        <h2 class="text-lg font-bold mb-2 text-brand-midnight">Core Principles</h2>
+                        <p class="mb-3">You're a digital <strong>Stylist</strong> for <strong>[Organization Name]</strong>. Bring <strong>[Tone]</strong> to every chat.</p>
+                        <ul class="list-disc pl-5 space-y-2 text-brand-bigsky">
+                            <li>Keep it warm and conversational — contractions and a friendly exclamation point are welcome!</li>
+                            <li>Use the customer's first name whenever you have it.</li>
+                            <li>Make returns and exchanges sound as easy as they really are — no stress, ever.</li>
+                            <li>Mention <strong>StyleRewards</strong> when a customer asks about points or perks.</li>
+                        </ul>`,
+                    'sensitive-statement.md': `
+                        <h2 class="text-lg font-bold mb-2 text-red-600">Sensitive Guidance</h2>
+                        <p class="mb-3">If a customer mentions a <strong>payment dispute</strong>, a <strong>damaged or wrong item</strong>, or anything about <strong>discrimination or accessibility</strong>, go ahead and select the <strong>escalate_to_human_agent</strong> action right away.</p>
+                        <div class="bg-red-50 border-l-4 border-red-500 p-4 mt-4 text-brand-midnight rounded-r">
+                            <strong class="text-red-700">CRITICAL:</strong> Don't try to handle sensitive billing or safety issues with AI. Hand things off kindly to a Stylist on the priority queue.
+                        </div>`,
+                    'order_status_guide.md': `
+                        <h2 class="text-lg font-bold mb-2 text-brand-midnight">Order Status & Tracking</h2>
+                        <p class="mb-4 text-brand-bigsky italic bg-brand-sage/20 p-2 rounded border border-brand-sage">When someone asks where their order is, keep it easy and friendly:</p>
+                        <h3 class="font-bold mt-4 mb-1 border-b border-gray-100 pb-1">Step 1: Quick Check</h3>
+                        <p class="mb-3">Just confirm the order number plus the email or ZIP on file before sharing details.</p>
+                        <h3 class="font-bold mt-4 mb-1 border-b border-gray-100 pb-1">Step 2: Look It Up</h3>
+                        <p class="mb-3">Use the <strong>lookup_order</strong> action to grab the latest status and tracking.</p>
+                        <h3 class="font-bold mt-4 mb-1 border-b border-gray-100 pb-1">Step 3: Share & Offer</h3>
+                        <p>Share the tracking and arrival date, then offer a free exchange in case the fit isn't quite right!</p>`,
+                    'returns_exchange_guide.md': `
+                        <h2 class="text-lg font-bold mb-2 text-brand-midnight">Returns & Exchanges</h2>
+                        <p class="mb-4 text-brand-bigsky italic bg-brand-sage/20 p-2 rounded border border-brand-sage">Use this when a customer wants to return or swap something — make it feel effortless!</p>
+                        <h3 class="font-bold mt-4 mb-1 border-b border-gray-100 pb-1">Step 1: What & Why</h3>
+                        <p class="mb-3">Ask which item and what's up (size, fit, or style). Let them know exchanges are totally free.</p>
+                        <h3 class="font-bold mt-4 mb-1 border-b border-gray-100 pb-1">Step 2: Quick Eligibility Check</h3>
+                        <p class="mb-3">Run <strong>check_return_eligibility</strong> to make sure it's within the window and in original condition.</p>
+                        <h3 class="font-bold mt-4 mb-1 border-b border-gray-100 pb-1">Step 3: Set It Up</h3>
+                        <p>For a size swap, kick off <strong>create_exchange</strong> and let them know the new size ships free. Easy!</p>`
+                }
+            },
+            talbots: {
+                name: 'Talbots',
+                color: '#B0142E',
+                icon: 'crown',
+                humanAgent: 'a Personal Stylist',
+                description: "A classic American women's specialty retailer known for timeless, refined, and elegant wardrobe essentials.",
+                tone: "Gracious, classic, and attentive. Communicate with timeless elegance, warmth, and impeccable service manners.",
+                docs: {
+                    'principles.md': `
+                        <h2 class="text-lg font-bold mb-2 text-brand-midnight">Core Principles</h2>
+                        <p class="mb-3">You are a digital <strong>Personal Stylist</strong> for <strong>[Organization Name]</strong>. Embody <strong>[Tone]</strong> in every response.</p>
+                        <ul class="list-disc pl-5 space-y-2 text-brand-bigsky">
+                            <li>Be gracious and courteous — classic, attentive service is the hallmark of the brand.</li>
+                            <li>Write in warm, complete sentences with timeless elegance; avoid trendy slang.</li>
+                            <li>Offer complimentary personal styling for a customer planning an occasion or refreshing her wardrobe.</li>
+                            <li>Reference <strong>Classic Awards</strong> loyalty benefits when relevant.</li>
+                        </ul>`,
+                    'sensitive-statement.md': `
+                        <h2 class="text-lg font-bold mb-2 text-red-600">Sensitive Guidance</h2>
+                        <p class="mb-3">Should a customer raise a <strong>payment dispute</strong>, a <strong>damaged or incorrect item</strong>, or a concern regarding <strong>discrimination or accessibility</strong>, kindly select the <strong>escalate_to_human_agent</strong> action without delay.</p>
+                        <div class="bg-red-50 border-l-4 border-red-500 p-4 mt-4 text-brand-midnight rounded-r">
+                            <strong class="text-red-700">CRITICAL:</strong> Please do not attempt to resolve sensitive billing or safety matters through AI. Graciously route the customer to a Personal Stylist on the priority queue.
+                        </div>`,
+                    'order_status_guide.md': `
+                        <h2 class="text-lg font-bold mb-2 text-brand-midnight">Order Status & Tracking</h2>
+                        <p class="mb-4 text-brand-bigsky italic bg-brand-sage/20 p-2 rounded border border-brand-sage">When a customer inquires after an order, attend to her request with care:</p>
+                        <h3 class="font-bold mt-4 mb-1 border-b border-gray-100 pb-1">Step 1: Verify</h3>
+                        <p class="mb-3">Kindly confirm the order number along with the email or ZIP on file before sharing any details.</p>
+                        <h3 class="font-bold mt-4 mb-1 border-b border-gray-100 pb-1">Step 2: Look Up</h3>
+                        <p class="mb-3">Use the <strong>lookup_order</strong> action to retrieve the current status and tracking.</p>
+                        <h3 class="font-bold mt-4 mb-1 border-b border-gray-100 pb-1">Step 3: Share & Reassure</h3>
+                        <p>Share the tracking and estimated arrival with warmth, and graciously offer a complimentary exchange should the fit need adjusting.</p>`,
+                    'returns_exchange_guide.md': `
+                        <h2 class="text-lg font-bold mb-2 text-brand-midnight">Returns & Exchanges</h2>
+                        <p class="mb-4 text-brand-bigsky italic bg-brand-sage/20 p-2 rounded border border-brand-sage">Use this guide to arrange a return or exchange with the gracious service our customers expect.</p>
+                        <h3 class="font-bold mt-4 mb-1 border-b border-gray-100 pb-1">Step 1: Confirm Item & Reason</h3>
+                        <p class="mb-3">Kindly confirm the item and reason for return, and reassure the customer it is our pleasure to assist.</p>
+                        <h3 class="font-bold mt-4 mb-1 border-b border-gray-100 pb-1">Step 2: Check Eligibility</h3>
+                        <p class="mb-3">Use <strong>check_return_eligibility</strong> to confirm the item is within the return window and in original condition.</p>
+                        <h3 class="font-bold mt-4 mb-1 border-b border-gray-100 pb-1">Step 3: Arrange with Care</h3>
+                        <p>Arrange the exchange via <strong>create_exchange</strong> and confirm the new size will ship complimentary, with our compliments.</p>`
+                }
+            }
+        };
+
+        let currentBrand = 'lanebryant';
+        let currentLayer = 'config';
+
+        function selectBrand(key) {
+            currentBrand = key;
+            const b = brandData[key];
+
+            // Tab active states
+            document.querySelectorAll('.brand-tab').forEach(t => {
+                t.classList.remove('brand-tab-active');
+                t.style.borderColor = 'rgba(24,17,64,0.2)';
+                t.style.boxShadow = 'none';
+            });
+            const tab = document.getElementById('tab-' + key);
+            tab.classList.add('brand-tab-active');
+            tab.style.borderColor = b.color;
+            tab.style.boxShadow = '2px 2px 0 0 ' + b.color;
+
+            // Left cartridge visuals
+            document.getElementById('cart-bar').style.backgroundColor = b.color;
+            document.getElementById('cart-icon-wrap').innerHTML =
+                `<i data-lucide="${b.icon}" class="w-10 h-10 drop-shadow-md" style="color:${b.color}"></i>`;
+            document.getElementById('cart-name').innerHTML = b.name + '<br>AI Service';
+            document.querySelectorAll('.cart-pin').forEach(p => p.style.backgroundColor = b.color);
+            lucide.createIcons();
+
+            // Inspector brand label
+            document.getElementById('inspector-brand').innerText = b.name;
+
+            // Layer 1 — config fields
+            document.getElementById('cfg-org').value = b.name;
+            document.getElementById('cfg-agent').value = b.humanAgent;
+            document.getElementById('cfg-desc').value = b.description;
+            document.getElementById('cfg-tone').value = b.tone;
+
+            // Re-render whichever editor layer is currently active
+            if (currentLayer === 'fragments') renderEditor('fragment');
+            if (currentLayer === 'guides') renderEditor('guide');
+        }
+
+        function renderEditor(type) {
+            const selId = type === 'fragment' ? 'fragment-select' : 'guide-select';
+            const edId = type === 'fragment' ? 'fragment-editor' : 'guide-editor';
+            const file = document.getElementById(selId).value;
+            const editor = document.getElementById(edId);
+            const docs = brandData[currentBrand].docs;
+
+            editor.style.opacity = '0';
+            setTimeout(() => {
+                editor.innerHTML = docs[file] || '<p class="text-gray-400">Document not found.</p>';
+                editor.style.opacity = '1';
+            }, 150);
+        }
+
+        function updateEditor(type) {
+            renderEditor(type);
+        }
+
+        function showLayer(layerId) {
+            currentLayer = layerId;
+
+            // 1. Reset all buttons and connecting lines
+            document.querySelectorAll('.layer-btn').forEach(btn => btn.classList.remove('active-layer'));
+            document.querySelectorAll('.connect-line').forEach(line => line.classList.remove('active'));
+
+            // 2. Hide all content in the inspector
+            document.querySelectorAll('.fade-in-content').forEach(content => content.classList.add('hidden'));
+
+            // 3. Activate selected button and line
+            document.getElementById(`btn-${layerId}`).classList.add('active-layer');
+            document.getElementById(`path-${layerId}`).classList.add('active');
+
+            // 4. Show corresponding content
+            const contentBox = document.getElementById(`content-${layerId}`);
+            contentBox.classList.remove('hidden');
+
+            // Restart the fade-in animation by triggering reflow
+            contentBox.style.animation = 'none';
+            contentBox.offsetHeight; /* trigger reflow */
+            contentBox.style.animation = null;
+
+            // 5. Populate editor layers from the active brand
+            if (layerId === 'fragments') renderEditor('fragment');
+            if (layerId === 'guides') renderEditor('guide');
+
+            // 6. Update Inspector Title
+            const titles = {
+                'config': 'BRAND CONFIGURATION',
+                'fragments': 'BRAND INSTRUCTIONS',
+                'guides': 'PROCESS GUIDES'
+            };
+            document.getElementById('inspector-title').innerText = titles[layerId];
+        }
+
+        // Initialize with the first brand selected
+        selectBrand('lanebryant');
+    </script>
+</body>
+</html>
