@@ -1,0 +1,726 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Alliance Virtual Offices — Virtual Office, Live Receptionist &amp; Meeting Rooms</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Demo site for the Alliance Virtual Offices AI agent.">
+<link rel="icon" href="img/icon.png">
+
+<!-- Quiq chat widget -->
+<script src="https://demo12.quiq-api.com/app/chat-ui/index.js" charset="UTF-8"></script>
+
+<style>
+  :root{
+    --ink:#24292e;
+    --ink-soft:#5b6670;
+    --line:#dfe6eb;
+    --paper:#ffffff;
+    --mist:#f3f7f9;
+    --sky:#e4f1f7;
+    --brand:#1f7fa6;
+    --brand-dark:#155f7d;
+    --brand-deep:#0f3d52;
+    --brand-lite:#79c3de;
+    --accent:#f0a028;
+    --accent-ink:#3a2504;
+    color-scheme: light;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  }
+  img{max-width:100%}
+  [hidden]{display:none!important}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3,h4{margin:0;font-weight:700;letter-spacing:-.01em;line-height:1.2}
+  .wrap{max-width:1180px;margin:0 auto;padding-inline:20px}
+  .eyebrow{
+    font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;
+    color:var(--brand);margin:0 0 12px
+  }
+
+  /* ---------- buttons ---------- */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    border:2px solid var(--brand);background:var(--brand);color:#fff;
+    padding:12px 26px;font-size:14px;font-weight:700;letter-spacing:.02em;border-radius:6px;
+    cursor:pointer;transition:background .18s ease,color .18s ease,border-color .18s ease;font-family:inherit;line-height:1.2
+  }
+  .btn:hover{background:var(--brand-dark);border-color:var(--brand-dark)}
+  .btn--ghost{background:transparent;color:var(--brand)}
+  .btn--ghost:hover{background:var(--brand);color:#fff}
+  .btn--accent{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+  .btn--accent:hover{background:#d98c17;border-color:#d98c17;color:var(--accent-ink)}
+  .btn--light{background:#fff;border-color:#fff;color:var(--brand-dark)}
+  .btn--light:hover{background:var(--sky);border-color:var(--sky);color:var(--brand-deep)}
+  .btn--outline-light{background:transparent;border-color:rgba(255,255,255,.75);color:#fff}
+  .btn--outline-light:hover{background:#fff;border-color:#fff;color:var(--brand-dark)}
+  .btn--sm{padding:9px 16px;font-size:13px}
+  .link{font-weight:700;color:var(--brand);font-size:14px}
+  .link:hover{text-decoration:underline}
+
+  /* ---------- header ---------- */
+  .utility{
+    background:var(--brand-deep);color:#d6e9f2;
+    font-size:12px;letter-spacing:.04em
+  }
+  .utility .wrap{display:flex;gap:22px;align-items:center;justify-content:flex-end;
+    min-height:34px;flex-wrap:wrap;padding-block:6px}
+  .utility .phone{margin-right:auto;color:#fff;font-weight:700}
+  .utility a:hover{color:#fff}
+
+  header.site{position:sticky;top:0;z-index:40;background:var(--paper);border-bottom:1px solid var(--line);box-shadow:0 1px 0 rgba(0,0,0,.02)}
+  header.site .wrap{display:flex;align-items:center;gap:28px;min-height:72px}
+  .brand img{height:38px;width:auto;display:block}
+  nav.main{display:flex;gap:20px;flex-wrap:nowrap;margin-left:auto;white-space:nowrap}
+  nav.main a{
+    font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);
+    padding:6px 0;border-bottom:2px solid transparent
+  }
+  nav.main a:hover{color:var(--brand);border-bottom-color:var(--brand)}
+  .head-actions{display:flex;gap:12px;align-items:center}
+  .head-actions .cart{
+    background:none;border:0;cursor:pointer;padding:4px;color:var(--ink);
+    display:inline-flex;align-items:center;gap:6px;font:inherit;font-size:13px;font-weight:700
+  }
+  .head-actions svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6}
+  .cart-count{background:var(--brand);color:#fff;border-radius:999px;font-size:10px;line-height:1;padding:3px 6px}
+
+  /* ---------- hero ---------- */
+  .hero{
+    background:linear-gradient(135deg,var(--brand-deep) 0%,var(--brand-dark) 55%,var(--brand) 100%);
+    color:#fff;position:relative;overflow:hidden
+  }
+  .hero::before{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(700px 480px at 85% 20%, rgba(121,195,222,.28), transparent 65%)
+  }
+  .hero .wrap{position:relative;z-index:1;display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;padding-block:64px}
+  .hero .eyebrow{color:var(--brand-lite)}
+  .hero h1{font-size:clamp(30px,3.6vw,46px);margin-bottom:14px}
+  .hero h1 span{color:var(--brand-lite)}
+  .hero p.lead{color:#dbe9f0;font-size:17px;max-width:48ch;margin:0 0 26px}
+  .search{
+    display:flex;gap:8px;background:#fff;padding:8px;border-radius:10px;max-width:560px;
+    box-shadow:0 18px 40px rgba(5,30,42,.28)
+  }
+  .search input{
+    flex:1;min-width:0;border:0;font:inherit;font-size:16px;padding:10px 12px;color:var(--ink);background:transparent;outline:none
+  }
+  .search input::placeholder{color:#8a949c}
+  .quick{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:22px;font-size:13px}
+  .quick a{color:#cfe5ef;border-bottom:1px solid rgba(255,255,255,.35);padding-bottom:2px}
+  .quick a:hover{color:#fff;border-bottom-color:#fff}
+  .mosaic{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .tile{position:relative;border-radius:10px;overflow:hidden;aspect-ratio:4/3;box-shadow:0 12px 30px rgba(5,30,42,.3)}
+  .tile img{width:100%;height:100%;object-fit:cover;display:block}
+  .tile span{
+    position:absolute;left:10px;bottom:10px;background:rgba(15,61,82,.86);color:#fff;
+    font-size:12px;font-weight:700;padding:5px 9px;border-radius:5px
+  }
+  .tile:nth-child(2){transform:translateY(22px)}
+  .tile:nth-child(4){transform:translateY(22px)}
+
+  /* ---------- promos ---------- */
+  .promos{background:var(--mist);border-bottom:1px solid var(--line)}
+  .promos .wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;padding-block:22px}
+  .promo{
+    background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:14px 16px;
+    display:flex;gap:12px;align-items:flex-start
+  }
+  .promo .code{
+    flex:none;background:var(--accent);color:var(--accent-ink);font-weight:800;font-size:12px;
+    letter-spacing:.06em;padding:5px 8px;border-radius:4px;margin-top:2px
+  }
+  .promo strong{display:block;font-size:14px}
+  .promo small{color:var(--ink-soft);font-size:13px;line-height:1.4;display:block}
+
+  /* ---------- sections ---------- */
+  section{padding-block:72px}
+  .section-head{max-width:680px;margin-bottom:36px}
+  .section-head h2{font-size:clamp(26px,3.2vw,36px);margin-bottom:12px;color:var(--brand-deep)}
+  .section-head p{color:var(--ink-soft);margin:0;font-size:17px}
+  .section-head.center{margin-inline:auto;text-align:center}
+
+  /* ---------- services ---------- */
+  .service-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:22px}
+  .service{
+    border:1px solid var(--line);border-radius:10px;padding:26px 22px;background:var(--paper);
+    display:flex;flex-direction:column;transition:box-shadow .2s ease,transform .2s ease
+  }
+  .service:hover{box-shadow:0 14px 34px rgba(15,61,82,.12);transform:translateY(-3px)}
+  .service img{width:110px;height:110px;object-fit:contain;margin-bottom:14px}
+  .service h3{font-size:18px;margin-bottom:8px;color:var(--brand-deep)}
+  .service p{color:var(--ink-soft);font-size:14px;margin:0 0 16px;flex:1}
+
+  /* ---------- cities ---------- */
+  .cities{background:var(--mist)}
+  .city-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px}
+  .city{position:relative;border-radius:10px;overflow:hidden;aspect-ratio:3/2;display:block;box-shadow:0 8px 22px rgba(15,61,82,.12)}
+  .city img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s ease}
+  .city:hover img{transform:scale(1.05)}
+  .city .label{
+    position:absolute;inset:auto 0 0 0;padding:14px 16px;color:#fff;
+    background:linear-gradient(to top,rgba(15,61,82,.92),rgba(15,61,82,0));
+    display:flex;justify-content:space-between;align-items:flex-end;gap:10px
+  }
+  .city .label strong{font-size:17px}
+  .city .label span{background:#fff;color:var(--brand-deep);font-size:12px;font-weight:800;padding:4px 8px;border-radius:4px;white-space:nowrap}
+
+  /* ---------- plans ---------- */
+  .plans-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:36px;align-items:start}
+  .plan-block h3{font-size:22px;color:var(--brand-deep);margin-bottom:6px}
+  .plan-block > p{color:var(--ink-soft);margin:0 0 18px;font-size:15px}
+  .plan-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+  .plan{
+    border:1px solid var(--line);border-radius:10px;padding:22px;background:var(--paper);display:flex;flex-direction:column
+  }
+  .plan.featured{border-color:var(--brand);box-shadow:0 0 0 3px var(--sky)}
+  .plan .tag{
+    align-self:flex-start;font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--brand);background:var(--sky);padding:4px 8px;border-radius:4px;margin-bottom:10px
+  }
+  .plan h4{font-size:19px;margin-bottom:4px}
+  .plan .from{font-size:14px;color:var(--ink-soft);margin:0 0 14px}
+  .plan .from b{font-size:26px;color:var(--ink);font-weight:800;letter-spacing:-.02em}
+  .plan ul{list-style:none;margin:0 0 18px;padding:0;display:grid;gap:8px;font-size:14px;flex:1}
+  .plan li{padding-left:22px;position:relative}
+  .plan li::before{content:"";position:absolute;left:0;top:7px;width:12px;height:7px;border-left:2px solid var(--brand);border-bottom:2px solid var(--brand);transform:rotate(-45deg)}
+  .lr-table{width:100%;border-collapse:collapse;font-size:15px;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .lr-table th,.lr-table td{padding:13px 16px;text-align:left;border-bottom:1px solid var(--line)}
+  .lr-table th{background:var(--mist);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+  .lr-table tr:last-child td{border-bottom:0}
+  .lr-table td b{font-size:18px}
+  .lr-table td:last-child,.lr-table th:last-child{text-align:right}
+  .note{font-size:13px;color:var(--ink-soft);margin:12px 0 0;line-height:1.5}
+  .note b{color:var(--ink)}
+
+  /* ---------- meeting rooms ---------- */
+  .rooms{background:var(--sky)}
+  .rate-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin:0 0 36px}
+  .rate{background:var(--paper);border-radius:8px;padding:16px 18px;border:1px solid var(--line)}
+  .rate small{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:4px}
+  .rate b{font-size:20px;letter-spacing:-.01em}
+  .center-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(205px,1fr));gap:16px}
+  .center{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:20px;display:flex;flex-direction:column;gap:6px}
+  .center .city-name{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--brand);font-weight:800}
+  .center h3{font-size:17px;color:var(--brand-deep)}
+  .center p{margin:0;color:var(--ink-soft);font-size:14px}
+  .center .meta{display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-size:14px}
+  .center .meta b{font-size:18px}
+  .badge{font-size:11px;font-weight:800;padding:4px 8px;border-radius:4px;background:#e2f5e6;color:#1d6b33}
+  .badge.request{background:#fff3dc;color:#8a5a00}
+  .center .btn{margin-top:12px}
+
+  /* ---------- stats ---------- */
+  .stats{background:var(--brand-deep);color:#fff;padding-block:52px}
+  .stats .wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:26px;text-align:center}
+  .stat b{display:block;font-size:34px;font-weight:800;letter-spacing:-.02em;color:var(--brand-lite)}
+  .stat span{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#cfe5ef}
+
+  /* ---------- testimonials ---------- */
+  .quote-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px}
+  .quote{border-left:3px solid var(--brand);padding:6px 0 6px 22px}
+  .quote .stars{color:var(--accent);letter-spacing:2px;font-size:15px;margin-bottom:8px}
+  .quote h3{font-size:17px;margin-bottom:8px;color:var(--brand-deep)}
+  .quote p{margin:0 0 10px;color:var(--ink-soft);font-size:15px}
+  .quote cite{font-style:normal;font-size:13px;font-weight:700}
+  .rating{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:34px;font-size:14px;color:var(--ink-soft)}
+  .rating b{color:var(--ink)}
+
+  /* ---------- faq ---------- */
+  .faq{background:var(--mist)}
+  .faq details{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:0 20px;margin-bottom:10px}
+  .faq summary{cursor:pointer;font-weight:700;padding:16px 0;list-style:none;display:flex;justify-content:space-between;gap:16px;align-items:center}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";font-size:22px;color:var(--brand);flex:none;line-height:1}
+  .faq details[open] summary::after{content:"–"}
+  .faq details p,.faq details ul{color:var(--ink-soft);font-size:15px;margin:0 0 16px}
+  .faq details ul{padding-left:20px}
+
+  /* ---------- support / chat band ---------- */
+  .support{
+    background:linear-gradient(135deg,var(--brand-dark),var(--brand));color:#fff;text-align:center
+  }
+  .support .eyebrow{color:var(--brand-lite)}
+  .support h2{font-size:clamp(26px,3.2vw,36px);margin-bottom:14px}
+  .support p{color:#dbe9f0;max-width:58ch;margin:0 auto 26px;font-size:17px}
+  .support .actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .support small{display:block;margin-top:18px;color:#cfe5ef;font-size:13px}
+
+  /* ---------- footer ---------- */
+  footer{background:#0b2a38;color:#b8cbd5;font-size:14px;padding-block:56px 30px}
+  .foot-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:32px;margin-bottom:40px}
+  footer h4{color:#fff;font-size:11px;letter-spacing:.18em;text-transform:uppercase;margin:0 0 16px}
+  footer ul{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+  footer li,.support small{overflow-wrap:anywhere}
+  footer a:hover{color:#fff}
+  .foot-bottom{
+    border-top:1px solid #163c4d;padding-top:20px;display:flex;gap:16px;flex-wrap:wrap;
+    justify-content:space-between;font-size:12px;color:#7f98a6
+  }
+  .demo-note{margin-top:16px;font-size:11px;letter-spacing:.04em;color:#6b8592}
+
+  @media (max-width:1040px){
+    nav.main{display:none}
+  }
+  @media (max-width:900px){
+    .hero .wrap{grid-template-columns:1fr;gap:36px;padding-block:48px}
+    .plans-grid{grid-template-columns:1fr}
+    section{padding-block:54px}
+  }
+  @media (max-width:520px){
+    .search{flex-direction:column}
+    .search .btn{width:100%}
+    .tile:nth-child(2),.tile:nth-child(4){transform:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="utility">
+  <div class="wrap">
+    <span class="phone">Call: +1 888.869.9494</span>
+    <a href="#">Login</a>
+    <a href="#support">Contact</a>
+    <a href="#">Blog</a>
+    <a href="#">My Cart</a>
+  </div>
+</div>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="#" aria-label="Alliance Virtual Offices home">
+      <img src="img/logo.png" alt="Alliance Virtual Offices" width="530" height="80">
+    </a>
+    <nav class="main">
+      <a href="#services">Virtual Offices</a>
+      <a href="#plans">Live Receptionists</a>
+      <a href="#services">Virtual Phone</a>
+      <a href="#rooms">Meeting Rooms</a>
+      <a href="#services">Coworking</a>
+    </nav>
+    <div class="head-actions">
+      <a class="btn btn--ghost btn--sm" href="#">Login</a>
+      <button class="cart" type="button" aria-label="Cart">
+        <svg viewBox="0 0 24 24"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+        <span class="cart-count">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">1,400+ locations · 33+ countries · $0 setup fee</p>
+      <h1>The Virtual Office Network That Lets You <span>Work Flexibly, Save Money, and Grow Your Business.</span> Fast.</h1>
+      <p class="lead">A recognized business address, on-demand meeting rooms, friendly live receptionists and a business phone number, all on one flexible agreement.</p>
+      <form class="search" id="findForm" autocomplete="off">
+        <input type="text" name="q" placeholder="City, state or ZIP code" aria-label="Search for a virtual office location">
+        <button class="btn btn--accent" type="submit">Find a Virtual Office</button>
+      </form>
+      <div class="quick">
+        <a href="#cities">Virtual Offices Worldwide</a>
+        <a href="#plans">Live Receptionist Services</a>
+        <a href="#services">Virtual Phone Numbers</a>
+        <a href="#rooms">Meeting Room Booking</a>
+        <a href="#services">Coworking Spaces</a>
+      </div>
+    </div>
+    <div class="mosaic" aria-hidden="true">
+      <div class="tile"><img src="img/city-new-york.jpg" alt="" width="700" height="480"><span>New York · from $48</span></div>
+      <div class="tile"><img src="img/city-san-francisco.jpg" alt="" width="700" height="480"><span>San Francisco · from $79</span></div>
+      <div class="tile"><img src="img/city-chicago.jpg" alt="" width="700" height="480"><span>Chicago · from $50</span></div>
+      <div class="tile"><img src="img/city-miami.jpg" alt="" width="700" height="480"><span>Miami · from $49</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="promos">
+  <div class="wrap">
+    <div class="promo">
+      <span class="code">$0</span>
+      <div><strong>A Professional Business Address.</strong><small>No setup fee on any Virtual Office plan.</small></div>
+    </div>
+    <div class="promo">
+      <span class="code">MEET10</span>
+      <div><strong>Professional Spaces, On Demand</strong><small>Save 10% on meeting room bookings over $60.</small></div>
+    </div>
+    <div class="promo">
+      <span class="code">VP10</span>
+      <div><strong>One Business Number. Keep Your Cell Private.</strong><small>$10 off your second month on a Virtual Phone.</small></div>
+    </div>
+    <div class="promo">
+      <span class="code">LR50</span>
+      <div><strong>A Real Receptionist, Under Your Business Name.</strong><small>$50 off your second month on any Live Receptionist plan.</small></div>
+    </div>
+  </div>
+</div>
+
+<section id="services">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Grow your business, flexibly</p>
+      <h2>Friendly, professional people. Time-saving tools. Cost-effective services.</h2>
+      <p>It's everything you need to grow your business, flexibly.</p>
+    </div>
+    <div class="service-grid">
+      <article class="service">
+        <img src="img/icon-address.png" alt="" width="290" height="290" loading="lazy">
+        <h3>Virtual Office</h3>
+        <p>Modernize your business. Work remotely with a professional company address and instant access to professional space.</p>
+        <a class="link" href="#plans">Plan features &rarr;</a>
+      </article>
+      <article class="service">
+        <img src="img/icon-receptionist.png" alt="" width="290" height="290" loading="lazy">
+        <h3>Live Receptionist</h3>
+        <p>Win and keep more business. Our friendly, professional receptionists nurture client relationships and strengthen loyalty.</p>
+        <a class="link" href="#plans">See plans &rarr;</a>
+      </article>
+      <article class="service">
+        <img src="img/icon-phone.png" alt="" width="290" height="290" loading="lazy">
+        <h3>Virtual Phone</h3>
+        <p>Separate personal calls from business calls with a dedicated business number and a powerful cloud-based phone system.</p>
+        <a class="link" href="#">Price and features &rarr;</a>
+      </article>
+      <article class="service">
+        <img src="img/icon-meetings.png" alt="" width="290" height="290" loading="lazy">
+        <h3>Meeting Rooms &amp; Office Space</h3>
+        <p>Accomplish more in a distraction-free workspace. Private, professional meeting rooms and flexible office space by the hour.</p>
+        <a class="link" href="#rooms">Book online &rarr;</a>
+      </article>
+      <article class="service">
+        <img src="img/icon-coworking.png" alt="" width="290" height="290" loading="lazy">
+        <h3>Coworking</h3>
+        <p>Collaborate with like-minded entrepreneurs. Work productively with full-time access to a professionally managed workspace.</p>
+        <a class="link" href="#">Start coworking &rarr;</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="cities" id="cities">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Top cities</p>
+      <h2>An address as prestigious as your business</h2>
+      <p>Verifiable commercial addresses in Class-A office buildings and coworking centers. Pricing varies by market; every plan has no setup fee.</p>
+    </div>
+    <div class="city-grid" id="cityGrid"></div>
+  </div>
+</section>
+
+<section id="plans">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Plans &amp; pricing</p>
+      <h2>Two Virtual Office plans. Add a Live Receptionist to either.</h2>
+      <p>Every plan includes a CMRA-compliant address that satisfies Amazon, banks and business registrations, daily mail receipt at your local center, and the Alliance web portal and mobile app.</p>
+    </div>
+    <div class="plans-grid">
+      <div class="plan-block">
+        <h3>Virtual Office plans</h3>
+        <p>Start with an address. Add included meeting room time when you need to meet clients in person.</p>
+        <div class="plan-cards">
+          <article class="plan">
+            <span class="tag">Core plan</span>
+            <h4>Platinum</h4>
+            <p class="from"><b>$49</b>/mo and up</p>
+            <ul>
+              <li>Professional business address</li>
+              <li>Daily mail receipt at your center</li>
+              <li>Mail scanning, forwarding or pickup</li>
+              <li>Web portal and mobile app</li>
+              <li>No setup fee</li>
+            </ul>
+            <a class="btn btn--ghost" href="#cities">Choose a location</a>
+          </article>
+          <article class="plan featured">
+            <span class="tag">Most popular</span>
+            <h4>Platinum Plus</h4>
+            <p class="from">Platinum price plus included room time, priced by location</p>
+            <ul>
+              <li>Everything in Platinum</li>
+              <li>16 hours of meeting room or day office time per month</li>
+              <li>Included at your home location</li>
+              <li>Extra hours at the standard hourly rate</li>
+              <li>No setup fee</li>
+            </ul>
+            <a class="btn" href="#cities">Choose a location</a>
+          </article>
+        </div>
+        <p class="note"><b>With Live Receptionist:</b> either plan can be bundled with a Live Receptionist minute bundle. Prices vary by city, from $49 to $250+ per month depending on market and building class.</p>
+      </div>
+      <div class="plan-block">
+        <h3>Live Receptionist plans</h3>
+        <p>US-based receptionists answer with your custom greeting, screen and warm-transfer calls, take messages and book appointments in real time. Every plan includes a dedicated business number and a Virtual Phone system.</p>
+        <table class="lr-table">
+          <thead><tr><th>Plan</th><th>Live answering minutes</th><th>Per month</th></tr></thead>
+          <tbody>
+            <tr><td>Live Receptionist 50</td><td>50 minutes</td><td><b>$125</b></td></tr>
+            <tr><td>Live Receptionist 100</td><td>100 minutes</td><td><b>$175</b></td></tr>
+            <tr><td>Live Receptionist 200</td><td>200 minutes</td><td><b>$260</b></td></tr>
+            <tr><td>Live Receptionist 500</td><td>500 minutes</td><td><b>$550</b></td></tr>
+          </tbody>
+        </table>
+        <p class="note"><b>Overage:</b> $1.75 per minute after your included minutes, invoiced at the end of the billing month. No overage in your first month. Upgrade or downgrade any time.</p>
+        <p class="note"><b>Hours:</b> Monday to Friday 8:00 AM to 9:00 PM ET, Saturday 9:00 AM to 7:00 PM ET.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="rooms" id="rooms">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Meeting rooms &amp; day offices</p>
+      <h2>Productive meetings and focused work, by the hour or by the day</h2>
+      <p>Work-ready meeting rooms, day offices and coworking desks across 4,000+ rooms in our partner network. Anyone can book; Platinum Plus clients draw from their included hours first.</p>
+    </div>
+    <div class="rate-row">
+      <div class="rate"><small>Hourly</small><b>$25 to $75</b><br><span style="font-size:13px;color:var(--ink-soft)">typical range, from $10/hour</span></div>
+      <div class="rate"><small>Half day (4 hours)</small><b>$150 to $300</b></div>
+      <div class="rate"><small>Full day</small><b>from $300</b></div>
+      <div class="rate"><small>Platinum Plus</small><b>16 hours / month</b><br><span style="font-size:13px;color:var(--ink-soft)">included at your home center</span></div>
+    </div>
+    <div class="section-head" style="margin-bottom:22px">
+      <h2 style="font-size:24px">Featured centers</h2>
+      <p>Tell us where, when, how long and for how many. We will check what is actually free and book it for you.</p>
+    </div>
+    <div class="center-grid" id="centerGrid"></div>
+  </div>
+</section>
+
+<div class="stats">
+  <div class="wrap">
+    <div class="stat"><b>1992</b><span>Network founded</span></div>
+    <div class="stat"><b>1,400+</b><span>Global locations</span></div>
+    <div class="stat"><b>4,000+</b><span>Meeting rooms</span></div>
+    <div class="stat"><b>25,000+</b><span>Clients served</span></div>
+    <div class="stat"><b>7 days</b><span>Client service, every week</span></div>
+  </div>
+</div>
+
+<section id="reviews">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">What our clients say</p>
+      <h2>Here's what you can expect from Alliance.</h2>
+    </div>
+    <div class="rating">
+      <span><b>Excellent</b> on client reviews</span>
+      <span>·</span>
+      <span>BBB accredited business, Henderson, NV</span>
+    </div>
+    <div class="quote-grid">
+      <article class="quote">
+        <div class="stars" aria-label="5 stars">★★★★★</div>
+        <h3>Smooth registration process</h3>
+        <p>The whole process of registering the office space was very smooth. Very satisfied with the customer service.</p>
+        <cite>Umairah I.</cite>
+      </article>
+      <article class="quote">
+        <div class="stars" aria-label="5 stars">★★★★★</div>
+        <h3>Alliance was easy to set up</h3>
+        <p>Alliance was easy to set up and the customer service was awesome. I really loved how easy the notary was.</p>
+        <cite>Ebony J.</cite>
+      </article>
+      <article class="quote">
+        <div class="stars" aria-label="5 stars">★★★★★</div>
+        <h3>A great service</h3>
+        <p>Alliance Virtual is a great service. The people are excellent.</p>
+        <cite>Curtis W.</cite>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Frequently asked questions</p>
+      <h2>Good to know before you sign up</h2>
+    </div>
+    <details>
+      <summary>What is a Virtual Office from Alliance?</summary>
+      <p>A legitimate commercial address inside a staffed, professional office center, not a mailbox store. Register your business with it, receive concierge-handled mail, and book meeting rooms and day offices on demand through the app, without the cost or commitment of a traditional lease.</p>
+    </details>
+    <details>
+      <summary>What's the difference between a Virtual Office and a PO Box?</summary>
+      <p>A PO Box is a mailing address at a postal or pack-and-ship store. A Virtual Office from Alliance is a real business address inside a staffed office building, a location you can physically use for meetings, mail and business registration.</p>
+    </details>
+    <details>
+      <summary>Why do I need to notarize USPS Form 1583?</summary>
+      <p>Alliance is a USPS-licensed Commercial Mail Receiving Agency, so federal regulations require a notarized Form 1583 plus two forms of government ID on file before any mail can be received or forwarded. Three ways to do it:</p>
+      <ul>
+        <li>Complimentary online notary during checkout</li>
+        <li>Download the pre-filled form and use your own local notary</li>
+        <li>Sign in person at a staffed partner center and skip notarization entirely</li>
+      </ul>
+    </details>
+    <details>
+      <summary>Can I cancel at any time?</summary>
+      <p>Virtual Office plans start with a 6-month initial term, then renew month to month. Cancel through the online account portal with at least 30 days' notice; the cancellation takes effect on the last day of the following month. Requests by phone or email alone are not accepted.</p>
+    </details>
+    <details>
+      <summary>What happens if I go over my Live Receptionist minutes?</summary>
+      <p>Additional minutes are billed at $1.75 per minute, calculated and invoiced at the end of your billing month on top of your plan fee. There is no overage during your first month of service, and you can change plans at any time.</p>
+    </details>
+    <details>
+      <summary>How do I update my forwarding address or contact details?</summary>
+      <p>Sign in to the portal or app and open Account, or ask us in chat. We verify your name plus the email or phone number on file (or your account number) before any change, and we confirm the current forwarding address back to you before a new one is applied. Changes usually apply within one business day.</p>
+    </details>
+  </div>
+</section>
+
+<section class="support" id="support">
+  <div class="wrap">
+    <p class="eyebrow">We're here to help</p>
+    <h2>Questions? Talk to Alliance right here.</h2>
+    <p>Ask about plans and pricing, check meeting room availability, update your account or make sense of an invoice. Already a client? We'll verify you with a one-time code texted to the phone on file before we touch your account.</p>
+    <div class="actions">
+      <button class="btn btn--light" type="button" data-open-chat>Chat with us</button>
+      <a class="btn btn--outline-light" href="#">Call +1 888.869.9494</a>
+    </div>
+    <small>Phone support Monday to Friday · services@alliancevirtualoffices.com · Help center: support.alliancevirtualoffices.com</small>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#cities">Virtual Offices</a></li>
+          <li><a href="#rooms">Meeting Rooms</a></li>
+          <li><a href="#plans">Live Receptionists</a></li>
+          <li><a href="#services">Virtual Phone Number</a></li>
+          <li><a href="#services">Coworking</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#">Marketplace</a></li>
+          <li><a href="#">Promo Codes</a></li>
+          <li><a href="#faq">What is a Virtual Office?</a></li>
+          <li><a href="#">Virtual Address for LLC</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About Alliance Virtual</a></li>
+          <li><a href="#reviews">What Clients Say</a></li>
+          <li><a href="#">Earn Affiliate Income</a></li>
+          <li><a href="#">Grow Your Center Revenue</a></li>
+          <li><a href="#support">Contact Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#support">+1 888.869.9494</a></li>
+          <li><a href="#support">services@alliancevirtualoffices.com</a></li>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Login</a></li>
+          <li><a href="#">My Cart</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>&copy; 2026 alliancevirtualoffices.com · 2831 St Rose Parkway, Henderson, NV 89052, USA</span>
+      <span>Terms of Use · Privacy Policy</span>
+    </div>
+    <p class="demo-note">Internal demo page. Not affiliated with or endorsed by Alliance Virtual Offices; plans, prices, centers and copy are illustrative demo content.</p>
+  </div>
+</footer>
+
+<!-- Quiq chat widget -->
+<script>
+  var chat = Quiq({
+    pageConfigurationId: 'avo'
+  });
+</script>
+
+<script>
+  /* ---- page content (kept in one place so it's easy to retheme) ---- */
+  var CITIES = [
+    { name: 'New York, NY',      from: 48, img: 'city-new-york.jpg' },
+    { name: 'Los Angeles, CA',   from: 60, img: 'city-los-angeles.jpg' },
+    { name: 'San Francisco, CA', from: 79, img: 'city-san-francisco.jpg' },
+    { name: 'Las Vegas, NV',     from: 50, img: 'city-las-vegas.jpg' },
+    { name: 'Chicago, IL',       from: 50, img: 'city-chicago.jpg' },
+    { name: 'Miami, FL',         from: 49, img: 'city-miami.jpg' }
+  ];
+
+  /* Featured centers mirror the demo agent's meeting-room inventory (avo-core),
+     so a visitor can ask the assistant about any of these by name. */
+  var CENTERS = [
+    { city: 'Austin, TX',     name: 'Congress Avenue Center',   area: 'Downtown, steps from the Capitol', rate: 45, upTo: 14, instant: true },
+    { city: 'Austin, TX',     name: 'Domain North Center',      area: 'The Domain, North Austin',         rate: 40, upTo: 10, instant: true },
+    { city: 'Denver, CO',     name: 'Seventeenth Street Center', area: 'Downtown financial district',     rate: 35, upTo: 12, instant: true },
+    { city: 'Denver, CO',     name: 'Cherry Creek Center',      area: 'Cherry Creek North',               rate: 35, upTo: 10, instant: true },
+    { city: 'Sacramento, CA', name: 'Capitol Mall Center',      area: 'Downtown, on Capitol Mall',        rate: 40, upTo: 12, instant: false }
+  ];
+
+  document.getElementById('cityGrid').innerHTML = CITIES.map(function (c) {
+    return '' +
+      '<a class="city" href="#plans">' +
+        '<img src="img/' + c.img + '" alt="' + c.name + '" width="700" height="480" loading="lazy">' +
+        '<div class="label"><strong>' + c.name + '</strong><span>From $' + c.from + '/mo</span></div>' +
+      '</a>';
+  }).join('');
+
+  document.getElementById('centerGrid').innerHTML = CENTERS.map(function (c) {
+    return '' +
+      '<article class="center">' +
+        '<span class="city-name">' + c.city + '</span>' +
+        '<h3>' + c.name + '</h3>' +
+        '<p>' + c.area + ' · rooms for up to ' + c.upTo + '</p>' +
+        '<div class="meta"><span><b>$' + c.rate + '</b>/hour</span>' +
+          (c.instant ? '<span class="badge">Instant book</span>' : '<span class="badge request">By request</span>') +
+        '</div>' +
+        '<button class="btn btn--ghost btn--sm" type="button" data-open-chat>Check availability</button>' +
+      '</article>';
+  }).join('');
+
+  /* Open the chat: try the widget's own API, fall back to clicking the launcher. */
+  function openChat() {
+    var api = window.chat;
+    var names = ['open', 'show', 'setChatVisible', 'openChat', 'toggleChat'];
+    for (var i = 0; i < names.length; i++) {
+      if (api && typeof api[names[i]] === 'function') {
+        try { api[names[i]](true); return; } catch (e) { /* try the next one */ }
+      }
+    }
+    var launcher = document.querySelector(
+      '#quiqLauncher, .quiq-launcher, [class*="launcher"] button, iframe[id*="quiq" i]'
+    );
+    if (launcher && typeof launcher.click === 'function') launcher.click();
+  }
+
+  document.addEventListener('click', function (ev) {
+    var el = ev.target.closest ? ev.target.closest('[data-open-chat]') : null;
+    if (el) { ev.preventDefault(); openChat(); }
+  });
+
+  /* The location search hands off to the assistant rather than a results page. */
+  document.getElementById('findForm').addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    openChat();
+  });
+</script>
+
+</body>
+</html>
