@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Mail</title>
+<style>
+  :root {
+    --bg: #f4f5f7; --card: #ffffff; --ink: #16202b; --muted: #5f6b78;
+    --line: #e2e5ea; --accent: #0b5cad; --accent-ink: #ffffff; --unread: #0b5cad;
+    --brand: #0d2340;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #101418; --card: #171d23; --ink: #e8edf2; --muted: #9aa6b2;
+      --line: #26303a; --accent: #4c9be8; --accent-ink: #0b1218; --unread: #4c9be8;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+    font: 16px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  header { position: sticky; top: 0; background: var(--card); border-bottom: 1px solid var(--line);
+    padding: 14px 16px; display: flex; align-items: center; gap: 12px; z-index: 2; }
+  header h1 { font-size: 20px; margin: 0; flex: 1; }
+  header .who { font-size: 13px; color: var(--muted); }
+  .back { border: 0; background: none; color: var(--accent); font-size: 16px; padding: 0; cursor: pointer; }
+  main { max-width: 640px; margin: 0 auto; }
+  .row { display: flex; gap: 12px; padding: 14px 16px; background: var(--card);
+    border-bottom: 1px solid var(--line); cursor: pointer; text-decoration: none; color: inherit; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--unread); margin-top: 7px; flex: none; }
+  .dot.read { background: transparent; }
+  .row .meta { flex: 1; min-width: 0; }
+  .row .top { display: flex; justify-content: space-between; gap: 8px; }
+  .row .from { font-weight: 600; }
+  .row .time { color: var(--muted); font-size: 13px; flex: none; }
+  .row .subj { font-weight: 600; }
+  .row .snip { color: var(--muted); font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .row.old .from, .row.old .subj { font-weight: 400; }
+  .mail { background: var(--card); min-height: calc(100vh - 56px); padding: 20px 16px 40px; }
+  .mail h2 { font-size: 22px; margin: 0 0 12px; }
+  .mail .hdr { color: var(--muted); font-size: 14px; border-bottom: 1px solid var(--line); padding-bottom: 12px; margin-bottom: 20px; }
+  .brandbar { background: var(--brand); color: #fff; border-radius: 10px 10px 0 0; padding: 14px 18px; font-weight: 700; letter-spacing: .2px; }
+  .brandbar span { font-weight: 400; opacity: .85; }
+  .letter { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  .letter .inner { padding: 18px; }
+  .btn { display: inline-block; background: var(--accent); color: var(--accent-ink); border-radius: 8px;
+    padding: 13px 22px; font-weight: 600; text-decoration: none; margin: 8px 0 16px; }
+  .small { color: var(--muted); font-size: 13px; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<!--
+  Mock email inbox for the Bi-State demo, Journey D (BSD-D1, BSD-006).
+  No real email is sent. The AI agent's reset_email_send tool "delivers" to
+  this page by convention: the presenter opens it on their phone.
+  Query params (all optional):
+    r    rider id, default R-1004 (Theo R.). Picks the address shown.
+    sms  the demo help line in E.164 (for example +13145550100). Passed on to
+         reset.html so its "Return to your chat" button can open a text.
+  Sends nothing anywhere. No scripts or fonts are loaded from other sites.
+-->
+<header id="listHeader">
+  <h1>Inbox</h1>
+  <div class="who" id="who"></div>
+</header>
+<header id="mailHeader" hidden>
+  <button class="back" id="back" type="button">&#8249; Inbox</button>
+</header>
+
+<main>
+  <section id="list">
+    <a class="row" id="resetRow" href="#reset">
+      <div class="dot" id="dot"></div>
+      <div class="meta">
+        <div class="top"><span class="from">Metro Ride On</span><span class="time" id="sentTime">now</span></div>
+        <div class="subj">Reset your password</div>
+        <div class="snip">We received a request to reset the password for your Ride On rider account.</div>
+      </div>
+    </a>
+    <div class="row old">
+      <div class="dot read"></div>
+      <div class="meta">
+        <div class="top"><span class="from">Metro Ride On</span><span class="time">Oct 28</span></div>
+        <div class="subj">Your 30-Day pass is active</div>
+        <div class="snip">Thanks for riding Metro. Your pass is ready to use on MetroBus and MetroLink.</div>
+      </div>
+    </div>
+    <div class="row old">
+      <div class="dot read"></div>
+      <div class="meta">
+        <div class="top"><span class="from">Neighborhood Library</span><span class="time">Oct 21</span></div>
+        <div class="subj">Your hold is ready for pickup</div>
+        <div class="snip">The item you requested is waiting at the front desk.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="mail" class="mail" hidden>
+    <h2>Reset your password</h2>
+    <div class="hdr">
+      <div><strong>Metro Ride On</strong> &lt;no-reply@rideon.example&gt;</div>
+      <div>To: <span id="toAddr"></span></div>
+    </div>
+    <div class="letter">
+      <div class="brandbar">Metro Ride On <span>&middot; Rider account</span></div>
+      <div class="inner">
+        <p>Hi <span id="firstName"></span>,</p>
+        <p>We received a request to reset the password for your Ride On rider account.
+           Tap the button below to choose a new one. The link works for 30 minutes.</p>
+        <a class="btn" id="resetBtn" href="reset.html">Reset password</a>
+        <p class="small">If you did not ask for this, you can ignore this email. Your password
+           will not change. Metro will never ask for your password by text or phone.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+  // Fictional personas from the demo pack. Emails use the reserved example.com domain.
+  var RIDERS = {
+    "R-1001": { first: "Marcus", email: "marcus.t@example.com" },
+    "R-1002": { first: "Elena",  email: "elena.r@example.com" },
+    "R-1003": { first: "Dana",   email: "dana.k@example.com" },
+    "R-1004": { first: "Theo",   email: "theo.r@example.com" }
+  };
+  var params = new URLSearchParams(location.search);
+  var riderId = RIDERS[params.get("r")] ? params.get("r") : "R-1004";
+  var rider = RIDERS[riderId];
+  var sms = params.get("sms") || "";
+
+  document.getElementById("who").textContent = rider.email;
+  document.getElementById("toAddr").textContent = rider.email;
+  document.getElementById("firstName").textContent = rider.first;
+  var resetUrl = "reset.html?r=" + encodeURIComponent(riderId) + (sms ? "&sms=" + encodeURIComponent(sms) : "");
+  document.getElementById("resetBtn").setAttribute("href", resetUrl);
+
+  var now = new Date();
+  document.getElementById("sentTime").textContent =
+    now.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+
+  function show() {
+    var open = location.hash === "#reset";
+    document.getElementById("list").hidden = open;
+    document.getElementById("listHeader").hidden = open;
+    document.getElementById("mail").hidden = !open;
+    document.getElementById("mailHeader").hidden = !open;
+    if (open) { document.getElementById("dot").classList.add("read"); window.scrollTo(0, 0); }
+  }
+  document.getElementById("back").addEventListener("click", function () { history.back(); });
+  window.addEventListener("hashchange", show);
+  show();
+</script>
+</body>
+</html>

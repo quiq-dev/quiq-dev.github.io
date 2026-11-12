@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Choose a new password | Metro Ride On</title>
+<style>
+  :root {
+    --bg: #eef1f5; --card: #ffffff; --ink: #16202b; --muted: #5f6b78; --line: #d7dce3;
+    --brand: #0d2340; --accent: #0b5cad; --accent-ink: #ffffff; --ok: #1d7a46; --err: #b3261e;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0e1216; --card: #171d23; --ink: #e8edf2; --muted: #9aa6b2; --line: #2b3640;
+      --accent: #4c9be8; --accent-ink: #0b1218; --ok: #5cc98a; --err: #f2867d;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+    font: 16px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  .top { background: var(--brand); color: #fff; padding: 16px; }
+  .top .name { font-weight: 700; font-size: 18px; letter-spacing: .2px; }
+  .top .sub { opacity: .8; font-size: 13px; }
+  main { max-width: 480px; margin: 0 auto; padding: 20px 16px 48px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 20px; }
+  h1 { font-size: 22px; margin: 0 0 6px; }
+  p.lead { color: var(--muted); margin: 0 0 18px; }
+  label { display: block; font-weight: 600; font-size: 14px; margin: 14px 0 6px; }
+  input[type=password], input[type=text] { width: 100%; font-size: 17px; padding: 12px; border-radius: 8px;
+    border: 1px solid var(--line); background: var(--card); color: var(--ink); }
+  input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .show { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 14px; color: var(--muted); }
+  .rules { font-size: 13px; color: var(--muted); margin: 10px 0 0; padding-left: 18px; }
+  .rules li.ok { color: var(--ok); }
+  .err { color: var(--err); font-size: 14px; min-height: 20px; margin-top: 10px; }
+  button, .btn { display: block; width: 100%; text-align: center; border: 0; border-radius: 8px; padding: 14px;
+    font-size: 17px; font-weight: 600; background: var(--accent); color: var(--accent-ink);
+    cursor: pointer; text-decoration: none; margin-top: 16px; }
+  button[disabled] { opacity: .5; cursor: default; }
+  .done { text-align: center; }
+  .tick { width: 64px; height: 64px; border-radius: 50%; background: var(--ok); color: #fff; font-size: 36px;
+    line-height: 64px; margin: 6px auto 14px; }
+  .small { font-size: 13px; color: var(--muted); }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<!--
+  Mock "choose a new password" page for the Bi-State demo, Journey D (BSD-D1, BSD-006).
+
+  The password never leaves this page. There is no form submission or network
+  call, so nothing reaches the AI agent, the conversation log or any server
+  (BSD-006 AC5).
+
+  How the agent learns the reset finished: the success screen's "Return to your
+  chat" button opens a text to the help line, prefilled with a short reference
+  (PW-####). The rider taps Send. The bistate-core service recomputes the same
+  reference from the rider id and today's UTC date, so only this page can
+  produce it. The algorithm is demoRef() below. Keep it in step with the
+  service.
+
+  Query params:
+    r    rider id, default R-1004 (Theo R.)
+    sms  the demo help line in E.164 (for example +13145550100). Without it the
+         success screen tells the rider to go back to their texts instead.
+-->
+<div class="top">
+  <div class="name">Metro Ride On</div>
+  <div class="sub">Rider account</div>
+</div>
+<main>
+  <div class="card" id="formCard">
+    <h1>Choose a new password</h1>
+    <p class="lead">For <strong id="acct"></strong></p>
+    <form id="form" autocomplete="off" novalidate>
+      <label for="pw1">New password</label>
+      <input id="pw1" type="password" autocomplete="new-password" required>
+      <label for="pw2">Confirm new password</label>
+      <input id="pw2" type="password" autocomplete="new-password" required>
+      <div class="show"><input id="showPw" type="checkbox"><label for="showPw" style="margin:0;font-weight:400">Show passwords</label></div>
+      <ul class="rules">
+        <li id="rLen">At least 8 characters</li>
+        <li id="rNum">At least one number</li>
+        <li id="rMatch">Both entries match</li>
+      </ul>
+      <div class="err" id="err" role="alert"></div>
+      <button id="submit" type="submit">Update password</button>
+    </form>
+  </div>
+
+  <div class="card done" id="doneCard" hidden>
+    <div class="tick" aria-hidden="true">&#10003;</div>
+    <h1>Password updated</h1>
+    <p class="lead">You can now sign in to your Ride On rider account with your new password.</p>
+    <a class="btn" id="backToChat" href="#">Return to your chat</a>
+    <p class="small" id="noSms" hidden>Go back to your text conversation with Metro and let us know you're done.</p>
+  </div>
+</main>
+
+<script>
+  var RIDERS = {
+    "R-1001": "marcus.t@example.com",
+    "R-1002": "elena.r@example.com",
+    "R-1003": "dana.k@example.com",
+    "R-1004": "theo.r@example.com"
+  };
+  var params = new URLSearchParams(location.search);
+  var riderId = RIDERS[params.get("r")] ? params.get("r") : "R-1004";
+  var sms = (params.get("sms") || "").replace(/[^+0-9]/g, "");
+  document.getElementById("acct").textContent = RIDERS[riderId];
+
+  // Shared with bistate-core (Python, sandbox-safe). A 4-digit check value, not a secret.
+  function demoRef(prefix, rider, ymd) {
+    var s = rider + "|" + ymd, h = 0;
+    for (var i = 0; i < s.length; i++) { h = (h * 31 + s.charCodeAt(i)) % 9973; }
+    return prefix + "-" + String(1000 + (h % 9000));
+  }
+
+  var pw1 = document.getElementById("pw1"), pw2 = document.getElementById("pw2");
+  function check() {
+    var a = pw1.value, b = pw2.value;
+    var len = a.length >= 8, num = /[0-9]/.test(a), match = a.length > 0 && a === b;
+    document.getElementById("rLen").className = len ? "ok" : "";
+    document.getElementById("rNum").className = num ? "ok" : "";
+    document.getElementById("rMatch").className = match ? "ok" : "";
+    return { ok: len && num && match, len: len, num: num, match: match };
+  }
+  pw1.addEventListener("input", check);
+  pw2.addEventListener("input", check);
+  document.getElementById("showPw").addEventListener("change", function (e) {
+    pw1.type = pw2.type = e.target.checked ? "text" : "password";
+  });
+
+  document.getElementById("form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var c = check(), err = document.getElementById("err");
+    if (!c.ok) {
+      err.textContent = !c.len ? "Use at least 8 characters." : !c.num ? "Add at least one number." : "The two entries don't match.";
+      return;
+    }
+    err.textContent = "";
+    pw1.value = pw2.value = "";          // drop the password as soon as it is accepted
+    var ymd = new Date().toISOString().slice(0, 10);
+    var ref = demoRef("PW", riderId, ymd);
+    var link = document.getElementById("backToChat");
+    if (sms) {
+      var body = "I reset my password (ref " + ref + ")";
+      link.setAttribute("href", "sms:" + sms + "?&body=" + encodeURIComponent(body));
+    } else {
+      link.hidden = true;
+      document.getElementById("noSms").hidden = false;
+    }
+    document.getElementById("formCard").hidden = true;
+    document.getElementById("doneCard").hidden = false;
+    window.scrollTo(0, 0);
+  });
+</script>
+</body>
+</html>
