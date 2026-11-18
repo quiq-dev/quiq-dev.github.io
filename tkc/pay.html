@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>TKC Deposits - Secure payment (demo)</title>
+<style>
+  :root {
+    --bg: #f3f5f7; --card: #ffffff; --ink: #17212b; --muted: #5b6875; --line: #d6dce2;
+    --accent: #1f5f8b; --accent-ink: #ffffff; --ok: #1d6b45; --ok-bg: #e4f3ea;
+    --bad: #9a2a2a; --bad-bg: #f8e6e6; --note-bg: #fff6d9; --note-ink: #5c4700; --field: #eef1f4;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #11161b; --card: #1a2128; --ink: #e8edf2; --muted: #9aa7b4; --line: #313b45;
+      --accent: #6fb1dd; --accent-ink: #0d1820; --ok: #7fd3a4; --ok-bg: #173527;
+      --bad: #f0a3a3; --bad-bg: #3b1c1c; --note-bg: #3a3212; --note-ink: #f1dc8c; --field: #232c35;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 16px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  .banner {
+    background: var(--note-bg); color: var(--note-ink); text-align: center;
+    padding: 8px 16px; font-size: 13px; font-weight: 600;
+  }
+  main { max-width: 440px; margin: 0 auto; padding: 20px 16px 40px; }
+  .wordmark { font-weight: 700; letter-spacing: 0.01em; font-size: 18px; }
+  .wordmark span { color: var(--muted); font-weight: 500; }
+  h1 { font-size: 20px; margin: 4px 0 16px; text-wrap: balance; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+  .row { display: flex; justify-content: space-between; gap: 16px; align-items: baseline; }
+  .label { color: var(--muted); font-size: 13px; }
+  .desc { font-weight: 600; overflow-wrap: anywhere; }
+  .total { font-size: 28px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  label { display: block; font-size: 13px; color: var(--muted); margin: 12px 0 4px; }
+  input {
+    width: 100%; padding: 12px; border: 1px solid var(--line); border-radius: 8px;
+    background: var(--field); color: var(--ink); font: inherit; font-variant-numeric: tabular-nums; opacity: 1;
+  }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .hint { font-size: 13px; color: var(--muted); margin: 12px 0 0; }
+  button {
+    width: 100%; min-height: 52px; border: 0; border-radius: 10px; background: var(--accent);
+    color: var(--accent-ink); font: inherit; font-weight: 700; font-size: 17px; cursor: pointer;
+  }
+  button:disabled { opacity: 0.7; cursor: default; }
+  button:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+  .result { border-radius: 12px; padding: 20px 16px; text-align: center; }
+  .result h2 { margin: 0 0 8px; font-size: 22px; }
+  .result p { margin: 8px 0 0; }
+  .ok { background: var(--ok-bg); color: var(--ok); }
+  .bad { background: var(--bad-bg); color: var(--bad); }
+  .result .say { color: var(--ink); font-weight: 600; }
+  .ref { font-size: 12px; color: var(--muted); margin-top: 16px; text-align: center; overflow-wrap: anywhere; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<div class="banner">Demonstration only. No real payment is taken and nothing is sent anywhere.</div>
+<main>
+  <div class="wordmark">TKC Deposits <span>(demo)</span></div>
+  <h1>TKC Deposits - Secure payment</h1>
+
+  <section class="card" id="invalid" hidden>
+    <strong>This payment link isn't valid.</strong>
+    <p class="hint">Return to your call and ask for a new link.</p>
+  </section>
+
+  <div id="pay" hidden>
+    <section class="card">
+      <div class="label">Payment for</div>
+      <div class="desc" id="desc"></div>
+      <div class="row" style="margin-top:12px">
+        <div class="label">Total</div>
+        <div class="total" id="total"></div>
+      </div>
+    </section>
+
+    <section class="card" id="form">
+      <label for="cc">Card number</label>
+      <input id="cc" value="•••• •••• •••• 4242" disabled aria-describedby="cardhint">
+      <div class="two">
+        <div><label for="exp">Expires</label><input id="exp" value="12 / 30" disabled></div>
+        <div><label for="cvc">Security code</label><input id="cvc" value="•••" disabled></div>
+      </div>
+      <p class="hint" id="cardhint">A test card is filled in for this demo. This page can't accept a real card.</p>
+    </section>
+
+    <button id="go" type="button"></button>
+
+    <section class="result ok" id="approved" role="status" hidden>
+      <h2>Approved</h2>
+      <p id="approvedLine"></p>
+      <p class="say">Return to your call and say "I've paid".</p>
+    </section>
+
+    <section class="result bad" id="declined" role="alert" hidden>
+      <h2>Declined</h2>
+      <p>This payment did not go through. No charge was made.</p>
+      <p class="say">Return to your call and say "it was declined".</p>
+    </section>
+  </div>
+
+  <div class="ref" id="ref"></div>
+</main>
+
+<script>
+// Demo page: reads the query string and draws a result. It makes no network
+// request, stores nothing, and has no editable card field.
+(function () {
+  var q = new URLSearchParams(location.search);
+  var link = (q.get("l") || "").slice(0, 80);
+  var amount = (q.get("a") || "").trim().replace(/^\$/, "");
+  var desc = (q.get("d") || "").trim().slice(0, 140);
+  var el = function (id) { return document.getElementById(id); };
+
+  if (!/^\d{1,5}(\.\d{1,2})?$/.test(amount) || Number(amount) <= 0) {
+    el("invalid").hidden = false;
+    return;
+  }
+  var parts = amount.split(".");
+  var cents = ((parts[1] || "") + "00").slice(0, 2);
+  var shown = "$" + Number(parts[0]).toLocaleString("en-US") + "." + cents;
+
+  el("desc").textContent = desc || "Deposit";
+  el("total").textContent = shown;
+  el("go").textContent = "Pay " + shown;
+  if (link) { el("ref").textContent = "Link reference " + link; }
+  el("pay").hidden = false;
+
+  el("go").addEventListener("click", function () {
+    var btn = el("go");
+    btn.disabled = true;
+    btn.textContent = "Processing…";
+    setTimeout(function () {
+      btn.hidden = true;
+      el("form").hidden = true;
+      // Test hook, same rule as the mock service: an amount ending in .13 fails.
+      if (cents === "13") {
+        el("declined").hidden = false;
+      } else {
+        el("approvedLine").textContent = "Payment complete. " + shown + " paid to TKC Deposits.";
+        el("approved").hidden = false;
+      }
+    }, 2000);
+  });
+})();
+</script>
+</body>
+</html>

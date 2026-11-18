@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>TKC Deposits - Mailing address (demo)</title>
+<style>
+  :root {
+    --bg: #f3f5f7; --card: #ffffff; --ink: #17212b; --muted: #5b6875; --line: #d6dce2;
+    --accent: #1f5f8b; --accent-ink: #ffffff; --bad: #9a2a2a; --note-bg: #fff6d9; --note-ink: #5c4700;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #11161b; --card: #1a2128; --ink: #e8edf2; --muted: #9aa7b4; --line: #313b45;
+      --accent: #6fb1dd; --accent-ink: #0d1820; --bad: #f0a3a3; --note-bg: #3a3212; --note-ink: #f1dc8c;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 16px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  .banner {
+    background: var(--note-bg); color: var(--note-ink); text-align: center;
+    padding: 8px 16px; font-size: 13px; font-weight: 600;
+  }
+  main { max-width: 440px; margin: 0 auto; padding: 20px 16px 40px; }
+  .wordmark { font-weight: 700; font-size: 18px; }
+  .wordmark span { color: var(--muted); font-weight: 500; }
+  h1 { font-size: 20px; margin: 4px 0 16px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+  label { display: block; font-size: 13px; color: var(--muted); margin: 12px 0 4px; }
+  label:first-child { margin-top: 0; }
+  input {
+    width: 100%; padding: 12px; border: 1px solid var(--line); border-radius: 8px;
+    background: var(--bg); color: var(--ink); font: inherit;
+  }
+  input:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 1px; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  button {
+    width: 100%; min-height: 52px; border: 0; border-radius: 10px; background: var(--accent);
+    color: var(--accent-ink); font: inherit; font-weight: 700; font-size: 17px; cursor: pointer;
+  }
+  .hint { font-size: 13px; color: var(--muted); margin: 12px 0 0; }
+  .err { color: var(--bad); font-size: 14px; margin: 12px 0 0; }
+  .copy { font-weight: 600; overflow-wrap: anywhere; margin: 8px 0 0; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<div class="banner">Demonstration only. Use a made-up address. Nothing is saved on this page.</div>
+<main>
+  <div class="wordmark">TKC Deposits <span>(demo)</span></div>
+  <h1>Your mailing address</h1>
+
+  <form class="card" id="f" novalidate>
+    <label for="street">Street address</label>
+    <input id="street" autocomplete="address-line1" placeholder="412 Alder St" maxlength="80">
+    <label for="city">City</label>
+    <input id="city" autocomplete="address-level2" placeholder="Ogden" maxlength="40">
+    <div class="two">
+      <div><label for="state">State</label>
+        <input id="state" autocomplete="address-level1" placeholder="UT" maxlength="2" autocapitalize="characters"></div>
+      <div><label for="zip">ZIP code</label>
+        <input id="zip" autocomplete="postal-code" inputmode="numeric" placeholder="84401" maxlength="5"></div>
+    </div>
+    <p class="err" id="err" role="alert" hidden></p>
+  </form>
+
+  <button id="go" type="submit" form="f">Send to TKC Deposits</button>
+  <p class="hint">This opens a text message with your address filled in. Press send, then return to your call.</p>
+
+  <section class="card" id="manual" style="margin-top:16px" hidden>
+    <div>Text this message to the number you called:</div>
+    <p class="copy" id="body"></p>
+  </section>
+</main>
+
+<script>
+// Builds an sms: link back to the demo line. The number comes from the ?sms=
+// query parameter (never hard-coded). No network request, nothing stored.
+(function () {
+  var el = function (id) { return document.getElementById(id); };
+  var raw = (new URLSearchParams(location.search).get("sms") || "").trim();
+  var number = /^\+?\d{7,15}$/.test(raw) ? raw : "";
+  var clean = function (id) { return el(id).value.replace(/[\r\n,]+/g, " ").replace(/\s+/g, " ").trim(); };
+
+  el("f").addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    var street = clean("street"), city = clean("city");
+    var state = clean("state").toUpperCase(), zip = clean("zip");
+    var err = el("err");
+    err.hidden = true;
+    if (!street || !city || !/^[A-Z]{2}$/.test(state) || !/^\d{5}$/.test(zip)) {
+      err.textContent = "Please fill in the street, city, two-letter state and five-digit ZIP code.";
+      err.hidden = false;
+      return;
+    }
+    var body = "ADDRESS: " + street + ", " + city + ", " + state + " " + zip;
+    if (number) {
+      // Same link shape as the Bi-State QR codes: sms:<line>?&body=<prefill>
+      location.href = "sms:" + number + "?&body=" + encodeURIComponent(body);
+    } else {
+      el("body").textContent = body;
+      el("manual").hidden = false;
+    }
+  });
+})();
+</script>
+</body>
+</html>
